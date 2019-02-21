@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>課程資訊</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <p>
+            課程名稱:<span th:text="${lesson.lessonname}"></span>
+        </p>
+        <img class="card-img-bot" style="height:12rem;" src="/img/1.png" , alt="Card image cap">
+        <p>
+            課程講師:<span th:text="${lesson.teacher}"></span>
+        </p>
+        <p th:switch=="${lesson.status}">
+            課程狀態:
+            <span class="alert-warning" th:case="0">尚未開課</span>
+            <span class="alert-success" th:case="1">開課中</span>
+            <span class="alert-danger" th:case="2">已開課完畢</span>
+        </p>
+        <p>
+            開課日期:<span th:text="${lesson.opendate}"></span>
+        </p>
+        <p>
+            結束日期:<span th:text="${lesson.closedate}"></span>
+        </p>
+        <p>
+            課程類別:<span th:text="${lesson.sort}"></span>
+        </p>
+
+
+        <h2 class="pb-2 mt-4 mb-2 border-bottom">課程細節</h2>
+        <p>
+            <span th:text="${lesson.intro2}"></span>
+        </p>
+
+
+        <a href="javascript:history.go(-1)" class="btn btn-group">返回</a>
+    </div>
+
+
+
+
+</body>
+</html>

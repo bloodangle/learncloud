@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>開課管理</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+<body>
+    <div class="container" style="max-width: 700px;">
+        <div>
+            <p class="text-right"><a href="/lessonlist" type="sumbit" class="btn btn-primary">返回</a></p>
+        </div>
+
+
+        <h2 class="pb-2 mt-4 mb-2 border-bottom">新課程細節</h2>
+        <div class="card card-body bg-light">
+            <form action="/lessonlist" th:object="${lesson}" method="post">
+                <input type="hidden" th:value="*{id}" name="id">
+                <div class="form-group">
+                    <label for="lessonnameId">課程名稱</label>
+                    <input type="text" name="lessonname" id="lessonnameId" class="form-control" th:field="*{lessonname}">
+                </div>
+                <div class="form-group">
+                    <label for="teacherId">開課老師</label>
+                    <input type="text" name="teacher" id="teacherId" class="form-control" th:field="*{teacher}">
+                </div>
+                <div class="form-group">
+                    <label for="sortId">課程類別</label>
+                    <input type="text" name="sort" id="sortId" class="form-control" th:field="*{sort}">
+                </div>
+                <div class="form-group">
+                    <label for="opendateId">開課日期</label>
+                    <input type="text" name="opendate" id="opendateId" class="form-control" th:field="*{opendate}">
+                </div>
+                <div class="form-group">
+                    <label for="closedateId">結束日期</label>
+                    <input type="text" name="closedate" id="closedateId" class="form-control" th:field="*{closedate}">
+                </div>
+
+                <div class="form-group">
+                    <label for="statusId">設置狀態</label>
+                    <select name="status" id="statusId" class="form-control">
+                        <option value="0" th:selected="(*{status} == '0')">尚未開課</option>
+                        <option value="1" th:selected="(*{status} == '1')">開課中</option>
+                        <option value="2" th:selected="(*{status} == '2')">已開課完畢</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="introId">簡短介紹</label>
+                    <input type="text" name="intro" id="introId" class="form-control" th:field="*{intro}">
+                </div>
+                <div class="form-group">
+                    <label for="intro2Id">詳細介紹</label>
+                    <input type="text" name="intro2" id="intro2Id" class="form-control" th:field="*{intro2}">
+                </div>
+                <p>上傳圖片</p>
+                <p>上傳講義</p>
+
+                <p class="text-center">
+                    <button type="sumbit" class="btn btn-primary">送出</button>
+                </p>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+</html>

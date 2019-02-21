@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>會員資料</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="/img/smallcat.jpg">
+
+
+
+        <div class="card-body">
+            <h5 class="card-title">使用者名稱:<span th:text="${user.username}">未提供</span></h5>
+            <p class="card-text">
+            <p>
+                UUID:<span th:text="${user.id}">未提供</span>
+            </p>
+            <p th:switch="${user.status}">
+                狀態:
+                <span class="alert alert-success" th:case="1">線上</span>
+                <span class="alert alert-danger" th:case="0">離線</span>
+            </p>
+            <p>
+                信箱:<span th:text="${user.email}"></span>
+            </p>
+            <p>
+                身分:<span th:text="${user.identity}"></span>
+            </p>
+            <p>
+                經歷:<span th:text="${user.experience}"></span>
+            </p>
+            <p>
+                簡介:<span th:text="${user.introduction}"></span>
+            </p>
+            <p>
+                電話:<span th:text="${user.phone}"></span>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

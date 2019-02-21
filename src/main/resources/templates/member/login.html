@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登入頁面</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+<body>
+
+<div class="container" style="max-width: 600px;margin-top:50px">
+    <form>
+        <a href="/userlist"> 已註冊會員資料 </a>
+
+
+        <div class="card card-body bg-light">
+            <div class="form-group">
+                <label for="usernameId">帳號</label>
+                <input type="text" class="form-control" name="username" id="usernameId">
+            </div>
+
+            <div class="form-group">
+                <label for="passwordId">密碼</label>
+                <input type="password" class="form-control" name="password" id="passwordId">
+            </div>
+            <!--<div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>-->
+
+            <button type="submit" class="btn btn-primary" onclick="Logining">登入</button>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    function Logining()
+    {
+        var loading= layer.load(0);
+        var user = {};
+        var loginResult = "";
+        user.username = document.getElementById("mail").value();
+        user.password = document.getElementById("password").value();
+        $.ajax(
+            {
+                type : 'POST',
+                url : '',
+                data : user,
+                dataType : 'json',
+                success : function (result) {
+                    loginResult = result.result();
+                    layer.alert("loginResult");
+                },
+                error : function () {
+                    layer.alert('錯誤');
+                }
+
+            }
+        )
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>課程總攬</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="pb-2 mt-4 mb-2 border-bottom">課程總攬</h2>
+
+    <nav>
+        <ul class="pager">
+            <a href="#" class="btn btn-info" th:href="@{'/lessonlist?page=' +${page.number-1} }" th:unless="${page.first}">Previous</a>
+            <a href="#" class="btn btn-info" th:href="@{'/lessonlist?page=' +${page.number+1} }" th:unless="${page.last}">Next</a>
+        </ul>
+    </nav>
+
+
+
+    <div class="alert alert-success alert-dismissible" th:unless="${#strings.isEmpty(message)}">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        課程<span th:text="${message}"></span>
+    </div>
+
+    <p class="text-right"><a href="/lessonopen" class="btn btn-primary">發表課程</a></p>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr class="bg-light-secondary">
+                    <td>No.</td>
+                    <td>課程ID</td>
+                    <td>課程縮圖</td>
+                    <td>課程名稱</td>
+                    <td>課程類別</td>
+                    <td>開課老師</td>
+                    <td>開課日期</td>
+                    <td>課程狀態</td>
+                    <td>介紹</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+
+            <!--iterStart.
+                count 從1開始
+                index 從0開始
+                size  列表總條數
+                even/odd: 偶數或奇數顯示不同顏色
+                first/last:第一條or最後一條
+                -->
+            <tbody>
+                <!-- th:class="${iterStat.even}? 'bg-light'"-->
+                <!--<tr th:each="lesson,iterStat:${lessons}">-->
+                <tr th:each="lesson,iterStat:${page.content}">
+                    <td><span th:text="${iterStat.count}"></span></td>
+                    <td><span th:text="${lesson.id}"></span></td>
+                        <th></th>
+                    <!--<td><a href="#" th:text="${lesson.lessonname}" th:href="@{/lessons/{id}{id=${lesson.id}}}">課程名稱</a></td>-->
+                    <td><a href="#" th:text="${lesson.lessonname}" th:href="@{'/lesson/list=' + ${lesson.id} }">課程名稱</a></td>
+                    <!--<td><a href="#" th:text="${lesson.lessonname}" th:href="@{'/list='+ ${lesson.id}}">課程名稱</a></td>-->
+                    <td><span th:text="${lesson.sort}"></span></td>
+                    <td><span th:text="${lesson.teacher}"></span></td>
+                    <td><span th:text="${lesson.opendate}"></span> <p><span th:text="${lesson.closedate}"></span></p></td>
+                    <td> <div th:switch="${lesson.status}">
+                        <span class="alert-warning" th:case="0">尚未開課</span>
+                        <span class="alert-success" th:case="1">開課中</span>
+                        <span class="alert-danger" th:case="2">已開課完畢</span>
+                    </div>
+                    </td>
+                    <td><span th:text="${lesson.intro}"></span></td>
+                    <td>
+                        <a href="#" th:href="@{'/lesson/edit=' + ${lesson.id} }">修改</a>
+                        <a herf="#" th:href="@{'/lesoon/del='  + ${lesson.id} }">刪除</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+
+</body>
+</html>

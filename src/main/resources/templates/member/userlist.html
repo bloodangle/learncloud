@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>課程總攬</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>會員總攬</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>會員id:</th>
+                <th>會員名稱:</th>
+                <th>會員信箱:</th>
+                <th>會員身分:</th>
+                <th>經歷:</th>
+                <th>簡介:</th>
+                <th>電話:</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="user,iterStat:${users}">
+                <th><span th:text="${iterStat.count}"></span></th>
+                <th><span th:text="${user.id}"></span></th>
+                <th><span th:text="${user.username}"></span></th>
+                <th><span th:text="${user.email}"></span></th>
+                <th><span th:text="${user.identity}"></span></th>
+                <th><span th:text="${user.experience}"></span></th>
+                <th><span th:text="${user.introduction}"></span></th>
+                <th><span th:text="${user.phone}"></span></th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

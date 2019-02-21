@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Page</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+<body>
+<div class="container" style="max-width: 600px;margin-top:50px">
+    <div class="jumbotron">
+        <p>路徑:<code th:text="${url}"></code></p>
+        <p>訊息:<code th:text="${exception.message}"></code></p>
+        <a href="javascript:history.go(-1)" class="btn btn-primary">返回</a>
+    </div>
+</div>
+
+<div th:utext="'&lt;!--'" th:remove="tag"></div>
+<div th:utext="'Failed Request URL : ' + ${url}" th:remove="tag"></div>
+<div th:utext="'Exception message : ' + ${exception.message}" th:remove="tag"></div>
+<ul th:remove="tag">
+    <li th:each="st : ${exception.stackTrace}" th:remove="tag"><span th:text="${st}" th:remove="tag"></span></li>
+</ul>
+<div th:utext="'--&gt;'" th:remove="tag"></div>
+
+</body>
+</html>

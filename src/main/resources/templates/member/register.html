@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>註冊頁面</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <!-- "fas fa-search" icon  https://fontawesome.com/ -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <div class="container" style="max-width: 600px;margin-top:50px">
+        <div class="card card-body bg-light">
+        <form action="/register" th:object="${userForm}" method="post">
+
+            <div class="form-group">
+                <label for="usernameId">帳號名稱</label>
+                <input type="text" class="form-control" name="username" id="usernameId" placeholder="Enter Username" th:field="*{username}">
+                <p class="form-control-sm text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="emailId">信箱</label>
+                <i class="far fa-question-circle" data-toggle="popover" title="123@mail.com"></i>
+                <input type="text" class="form-control" name="email" id="emailId" placeholder="Enter Email" th:field="*{email}">
+                <p class="form-control-sm text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="passwordId">設定密碼</label>
+                    <i class="far fa-question-circle" data-toggle="popover" title="至少6位，Need 6 key"></i>
+                    <input type="password" class="form-control" name="password" id="passwordId" placeholder="Enter Password" th:field="*{password}">
+                    <p class="form-control-sm text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="repasswordId">驗證密碼</label>
+                    <input type="password" class="form-control" name="repassword" id="repasswordId" placeholder="Again Password" th:field="*{repassword}">
+                    <p class="form-control-sm text-danger" th:if="${#fields.hasErrors('repassword')}" th:errors="*{repassword}"></p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneId">手機號碼</label>
+                <i class="far fa-question-circle" data-toggle="popover" title="09xxxxxxxx無須加入-"></i>
+                <input type="text" class="form-control" name="phone" id="phoneId" placeholder="mobile Phone" th:field="*{phone}">
+                <p class="form-control-sm text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary" onclick="regitchick()">註冊</button>
+        </form>
+        </div>
+    </div>
+
+
+    <script>
+            /*
+            var loading= layer.load(0);
+            var user = {};
+            var loginResult = "";
+            user.username = document.getElementById("username").value();
+            user.password = document.getElementById("password").value();
+            $.ajax(
+                {
+                    type : 'POST',
+                    url : '/result/p1',
+                    data : user,
+                    dataType : 'json',
+                    success : function (result) {
+                        loginResult = result.result();
+                        alert("loginResult");
+                    },
+                    error : function () {
+                        alert('錯誤');
+                    }
+
+                }
+            )*/
+      </script>
+
+</body>
+</html>

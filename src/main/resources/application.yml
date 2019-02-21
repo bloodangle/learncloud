@@ -1,0 +1,32 @@
+Server:
+  port: 8087
+
+
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/learncloud?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    userName: root
+    password: ocw35401
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+##Line
+line.bot:
+  channelToken: 'GpQNObkPAwfVKrNAihZQnl1To6V4eH5EA8SIpf9N4NWWTkdI5ip/gN94DRHC+8v4ALHcyeghBdAKrrXf+VzOaKLfoKSyYZje2SrPynruP/frDofFGbSodExX9Q4GvPpltpK2Q4l7Be1kJe4dKGfWxQdB04t89/1O/w1cDnyilFU='
+  channelSecret: '2b3f56c1bf5cd86be8e6dd70d62cfc12'
+
+
+
+logging:
+  level:
+    root: info
+    com.lrm: debug
+  file: logs/debug.log
+
+#引入版本設定
+#spring:
+#  thymeleaf:
+#    mode: HTML
+
