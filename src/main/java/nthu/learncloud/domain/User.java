@@ -21,6 +21,8 @@ public class User {
     private String experience;  //經歷
     private String introduction;  //簡介
 
+    private String lineid; //推播用Lineid
+
     private String phone;
     private String password;
 
@@ -78,6 +80,14 @@ public class User {
 
     public void setIntroduction(String introduction) {
         this.introduction = introduction;
+    }
+
+    public String getLineid() {
+        return lineid;
+    }
+
+    public void setLineid(String lineid) {
+        this.lineid = lineid;
     }
 
     public String getPhone() {

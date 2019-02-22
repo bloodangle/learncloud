@@ -80,7 +80,11 @@
                     <td><span th:text="${lesson.intro}"></span></td>
                     <td>
                         <a href="#" th:href="@{'/lesson/edit=' + ${lesson.id} }">修改</a>
-                        <a herf="#" th:href="@{'/lesoon/del='  + ${lesson.id} }">刪除</a>
+                        <a href="#" th:href="@{'/lesoon/del='  + ${lesson.id} }">刪除</a>
+                        <!--<a href="#" th:href="@{'/result2/' + ${lesson.id} }">推送課程</a>-->
+                        <form action="#" th:action="@{'/result2/'+${lesson.id}}" method="post">
+                            <button type="submit" name="testpost" class="btn btn-primary">推送課程</button>
+                        </form>
                     </td>
                 </tr>
             </tbody>

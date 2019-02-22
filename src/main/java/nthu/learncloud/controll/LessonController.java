@@ -83,6 +83,8 @@ public class LessonController {
     }
 
 
+
+
     @GetMapping("/lesoon/del={id}")
     public String delete(@PathVariable long id,final RedirectAttributes attributes)
     {

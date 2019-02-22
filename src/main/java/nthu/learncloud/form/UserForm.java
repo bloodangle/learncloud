@@ -1,7 +1,6 @@
 package nthu.learncloud.form;
 
 import nthu.learncloud.domain.User;
-import org.hibernate.annotations.NotFound;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
 
