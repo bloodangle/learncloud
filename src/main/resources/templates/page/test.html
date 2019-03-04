@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>歡迎</title>
+</head>
+<body>
+
+
+            <h2>歡迎</h2>
+
+            <h3><p th:text="${session.user.username}"></p><h3>
+
+    <div>
+            <a href="#" th:href="@{/lessonlist}" >課程列表</a>
+
+
+
+        <a href="#" th:href="@{/logout}" class="btn btn-warning">登出</a>
+    </div>
+
+</body>
+</html>
