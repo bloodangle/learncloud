@@ -69,15 +69,18 @@
 
 
 <script>
+
     $("#registerForm").submit(function (event) {
         event.preventDefault();
-        var name = $("usernameId").val();
-        var email = $("emailId").val();
-        var pw = $("passwordId").val();
-        var repw = $("repasswordId").val();
-        var phone = $("phoneId").val();
-
-        alert(name);
+        $.post("/register",
+            {
+                username : $("#usernameId").val(),
+                email :$("#emailId").val(),
+                password : $("#passwordId").val(),
+                repassword : $("#repasswordId").val(),
+                phone : $("#phoneId").val()
+            }
+        )
     });
 </script>
 
