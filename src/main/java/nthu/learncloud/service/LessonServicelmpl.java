@@ -1,18 +1,8 @@
 package nthu.learncloud.service;
 
-import com.linecorp.bot.client.LineMessagingClientBuilder;
-import com.linecorp.bot.model.PushMessage;
-import com.linecorp.bot.model.event.MessageEvent;
-import com.linecorp.bot.model.event.message.TextMessageContent;
-import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.response.BotApiResponse;
+
 import nthu.learncloud.domain.Lesson;
 import nthu.learncloud.domain.LessonRepository;
-import nthu.learncloud.exception.LessonNotFoundException;
-import org.apache.coyote.Response;
-import org.checkerframework.checker.units.qual.A;
-import org.hibernate.annotations.SortType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,7 +30,7 @@ public class LessonServicelmpl implements LessonService{
         /*Lesson lesson = lessonRepository.findById(id).orElse(null);
         if(lesson == null)
         {
-            throw new LessonNotFoundException("課程不存在");
+            throw new NotFoundException("課程不存在");
         }
         return lesson;*/
         return lessonRepository.findById(id).orElse(null);
@@ -66,6 +56,7 @@ public class LessonServicelmpl implements LessonService{
     public Lesson update(Lesson lesson) {
         return lessonRepository.save(lesson);
     }
+
     @Override
     public void delete(Long id) {
         lessonRepository.deleteById(id);

@@ -1,21 +1,10 @@
 package nthu.learncloud.service;
 
 
-import com.linecorp.bot.model.event.message.ImageMessageContent;
-import com.linecorp.bot.model.message.ImageMessage;
-import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.template.ButtonsTemplate;
-import com.linecorp.bot.model.message.template.Template;
-import com.linecorp.bot.model.response.BotApiResponse;
-import com.linecorp.bot.spring.boot.annotation.EnableLineMessaging;
-import com.linecorp.bot.spring.boot.annotation.LineBotMessages;
+
 import nthu.learncloud.domain.Lesson;
-import nthu.learncloud.domain.LessonRepository;
-import nthu.learncloud.exception.LessonNotFoundException;
-import org.hibernate.annotations.common.util.impl.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
@@ -23,7 +12,8 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
-import org.springframework.boot.logging.log4j2.Log4J2LoggingSystem;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 import java.util.List;
@@ -39,7 +29,6 @@ public class Linebot {
     private LessonServicelmpl lessonServicelmpl;
 
 
-
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         String s1 = event.getMessage().getText();
@@ -53,7 +42,7 @@ public class Linebot {
 
         Long X = Long.parseLong(event.getMessage().getText());
         //Lesson lesson = lessonServicelmpl.getlessonByid(X);
-        Lesson lesson = lessonServicelmpl.findOne(X);
+        Lesson lesson = lessonServicelmpl.getlessonByid(X);
         if(lesson != null) {
             return new TextMessage(s1 +"\n課程:" + lesson.getLessonname() + "\n開始時間：" + lesson.getOpendate() + "\n結束時間：" + lesson.getClosedate() + "\n修課連結：" + "\nhttps://ctldtest2.tk/lesson/list=" + X);
         }else

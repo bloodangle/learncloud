@@ -4,10 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 
 @Entity
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) //自動生成
@@ -25,6 +26,9 @@ public class User {
 
     private String phone;
     private String password;
+
+    public User() {
+    }
 
     public Long getId() {
         return id;
@@ -105,4 +109,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

@@ -1,15 +1,10 @@
 package nthu.learncloud.controll;
 
-
-import com.linecorp.bot.client.LineMessagingClient;
-import com.linecorp.bot.model.PushMessage;
-import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.response.BotApiResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.concurrent.ExecutionException;
+import javax.servlet.http.HttpSession;
+
 
 //@RestController // 只會反回內容 不會返回頁面
 @Controller
@@ -20,11 +15,18 @@ public class MainController {
     {
         return "index";
     }
-
+    /*
     @GetMapping("/exception")
     public String testException() {
         throw new RuntimeException("測試異常");
-    }
+    }*/
+
+    @GetMapping("/test")
+    public String test(){return "page/test";}
+
+    @GetMapping("/re")
+    public String testre(){return "member/register2";}
+
 
 
 }
