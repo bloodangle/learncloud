@@ -1,11 +1,17 @@
 package nthu.learncloud.api;
 
 import nthu.learncloud.domain.User;
+import nthu.learncloud.domain.UserRepository;
+import nthu.learncloud.form.UserForm;
 import nthu.learncloud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -14,6 +20,8 @@ public class UserApi {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/userlist")
     public List<User> getAll()
@@ -25,6 +33,22 @@ public class UserApi {
     public User getOne(@PathVariable long id) {
         return userService.findOne(id);
     }
+
+    @PostMapping("/rt")
+    public ResponseEntity<?> registerPost(@Valid @RequestBody UserForm userForm, BindingResult result)
+    {
+        if(!userForm.repassword()) {
+            return ResponseEntity.badRequest().body("密碼不一致");
+        }
+        if(result.hasErrors())
+        {
+            return ResponseEntity.badRequest().body(result);
+        }
+        User user = userForm.convertToUser();
+        userRepository.save(user);
+        return ResponseEntity.ok(result);
+    }
+
 
     @PostMapping("/r2")
     public User Post(User user)

@@ -56,12 +56,10 @@ public class UserController {
 
 
 
-
-
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/register")
+    @GetMapping("/registerpage")
     public String register(Model model)
     {
         model.addAttribute("userForm",new UserForm());
