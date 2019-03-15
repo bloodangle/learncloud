@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <title>註冊頁面</title>
 
@@ -19,36 +19,131 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="/js/bootstrap.bundle.js"></script>
     <script src="/js/bootstrap.js"></script>
+
+    <!--<style>
+        .loading
+        {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #d6d8db;
+            opacity: .5;
+            text-align: center;
+            line-height: 300px;
+        }
+        .loading
+        {
+            content: '請稍後...';
+            color : #721c24;
+        }
+    </style> -->
+    <script>
+        //data.split()
+        //xhr.send=('username=${username}&password=${password}')
+        //var loading = $("#loading");
+
+
+        $(function () {
+            $("#registerForm").submit(function (event) {
+                $("#email").empty();
+                $("#username").empty();
+                $("#password").empty();
+                $("#repassword").empty();
+                $("#phone").empty();
+
+                event.preventDefault();
+                var user = {
+                    email: $("#emailId").val(),
+                    username: $("#usernameId").val(),
+                    password: $("#passwordId").val(),
+                    repassword: $("#repasswordId").val(),
+                    phone: $("#phoneId").val(),
+                    permission: $("#permissionId").val()
+                };
+                console.log(user);
+                $.ajax({
+                    url: '/result/rtajax',
+                    type: 'POST',
+                    data: JSON.stringify(user),
+                    contentType: "application/json",
+                    success: function (data) {
+                        //console.log(data);
+                        if(data !== "註冊完成")
+                        {
+                            for (var field in data) {
+                                $('#' + data[field].field).append("<tr>" + "<td>" + data[field].defaultMessage + "</td>" + "</tr>").addClass("form-control-sm text-danger");
+                            }
+                        }else
+                        {
+                            alert("註冊完成");
+                            location.href = '/login';
+                        }
+                        //const set = new set();
+                        // var json = "<h4>提示訊息</h4><pre>"
+                        //    + JSON.stringify(data, null ,4) + "</pre>";
+                        //$('#feedback').html(json);
+                        //loading.style.display = 'none'data.field+data.defaultMessage;
+                        /*var i = 0;
+                        $.each(data, function () {
+                            $('#' + data.field).append("<tr>" + "<td>" + data[i].defaultMessage + "</td>" + "</tr>")
+                            i++;
+                        });*/
+                    },
+                    error: function () {
+                        alert('服務器目前異常');
+                    }
+                    //complete // 都會執行參數
+                })
+                //location.href = '/';
+            })
+        });
+
+    </script>
 </head>
 
 <body>
+<div class="sticky-top">
+    <div class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <div class="container">
+            <div class="row">
+                <a class="col-sm" href="/"><img class="card-img-bot" style="height:4rem;" src="/img/moocs.jpg"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="container" style="max-width: 600px;margin-top:50px">
     <div class="card card-body bg-light">
 
      <form id="registerForm">
-        <div id="feedback"></div>
+         <div class="form-group">
+             <label for="emailId">信箱</label>
+             <i class="far fa-question-circle" data-toggle="popover" title="123@mail.com，登入用名稱"></i>
+             <input type="text" class="form-control" name="email" id="emailId" placeholder="Enter Email">
+             <div id="email"></div>
+         </div>
+
             <div class="form-group">
-                <label for="usernameId">帳號名稱</label>
+                <label for="usernameId">姓名</label>
                 <input type="text" class="form-control" name="username" id="usernameId" placeholder="Enter Username">
+                <div id="username"></div>
             </div>
-
-            <div class="form-group">
-                <label for="emailId">信箱</label>
-                <i class="far fa-question-circle" data-toggle="popover" title="123@mail.com"></i>
-                <input type="text" class="form-control" name="email" id="emailId" placeholder="Enter Email">
-
-            </div>
-
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="passwordId">設定密碼</label>
                     <i class="far fa-question-circle" data-toggle="popover" title="至少6位，Need 6 key"></i>
-                    <input type="password" class="form-control" name="password" id="passwordId" placeholder="Enter Password">
+                    <input type="password" class="form-control" name="password" id="passwordId" placeholder="Enter Password" autocomplete="off">
+                    <div id="password"></div>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="repasswordId">驗證密碼</label>
-                    <input type="password" class="form-control" name="repassword" id="repasswordId" placeholder="Again Password">
+                    <input type="password" class="form-control" name="repassword" id="repasswordId" placeholder="Again Password" autocomplete="off">
+                    <div id="repassword"></div>
                 </div>
             </div>
 
@@ -56,44 +151,23 @@
                 <label for="phoneId">手機號碼</label>
                 <i class="far fa-question-circle" data-toggle="popover" title="09xxxxxxxx無須加入-"></i>
                 <input type="text" class="form-control" name="phone" id="phoneId" placeholder="mobile Phone">
+                <div id="phone"></div>
             </div>
+
+         <div class="form-group">
+             <label for="permissionId">身份</label>
+             <select id="permissionId" class="form-control">
+                 <option value="0">學生</option>
+                 <option value="1">講師(需要審核)</option>
+                 <option value="2">校外人士</option>
+             </select>
+         </div>
 
             <button id="goregister" type="submit" class="btn btn-primary" name="submit">註冊</button>
     </form>
-
     </div>
+
+
 </div>
-
-
-<script>
-
-    $("#registerForm").submit(function (event) {
-        event.preventDefault();
-        $.ajax({
-            url: "/result/rt",
-            type:"POST",
-            data: {
-                username: $("#usernameId").val(),
-                email: $("#emailId").val(),
-                password: $("#passwordId").val(),
-                repassword: $("#repasswordId").val(),
-                phone: $("#phoneId").val()
-            },
-            contentType:"application/json; charset=utf-8",
-            success: function (data) {
-
-                var json = "<h4>Ajax Response</h4><pre>"
-                    + JSON.stringify(data, null, 4) + "</pre>";
-                $('#feedback').html(json);
-
-                console.log("SUCCESS : ", data);
-                $("#btn-search").prop("disabled", false);
-
-            }
-        })
-
-    });
-</script>
-
 </body>
 </html>

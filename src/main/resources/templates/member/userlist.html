@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>課程總攬</title>
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
@@ -16,6 +18,84 @@
     <script src="/js/bootstrap.js"></script>
 </head>
 <body>
+
+<!--導航列-->
+
+<div class="sticky-top">
+    <div class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <div class="container">
+
+            <a href="/"><img class="card-img-bot" style="height:4rem;" src="/img/moocs.jpg"></a>
+            <div class="search-line">
+                <div> <input type="text" name="searchkey" placeholder="輸入課程"></div>
+            </div>
+
+            <div id="welcome1" >歡迎訪客</div>
+            <div id="welcome2" style="display:none">歡迎,<span id="userusername"></span></div>
+
+            <div class="topnav" id="myTopnav">
+                <a id="ucantseeme" style="visibility:hidden">導覽</a>
+                <a id="welcome1-1" href="/login">登入</a>
+                <a id="welcome1-2" href="/re">註冊</a>
+                <a id="logout" style="display:none">登出</a>
+                <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    }
+</script>
+<script>
+    $("#logout").click(function () {
+        $.ajax({
+            url: 'result/logout',
+            type: 'POST',
+            data: JSON.stringify,
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                if (data === "logoutfinish") {
+                    alert("登出成功");
+                    location.href = '/';
+                }
+            },
+            error: function () {
+                alert('服務器目前異常');
+            }
+        })
+    });
+</script>
+<script th:inline="javascript">
+
+    user = [[${session.user}]];
+    //console.log(user);
+
+    if(user==null)
+    {
+        $('#welcome1').show();
+        $('#welcome1-1').show();
+        $('#welcome1-2').show();
+        $('#welcome2').hide();
+        $('#logout').hide();
+    }else
+    {
+        $('#welcome1').hide();
+        $('#welcome1-1').hide();
+        $('#welcome1-2').hide();
+        $('#welcome2').show();
+        $('#logout').show();
+
+        $('#userusername').text(user.username);
+    }
+</script>
 
 <div class="container">
     <h2>會員總攬</h2>

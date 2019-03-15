@@ -1,6 +1,8 @@
 package nthu.learncloud.domain;
 
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +11,7 @@ import java.io.Serializable;
 
 
 @Entity
+@Data
 public class Lesson implements Serializable {
 
     @Id
@@ -25,75 +28,4 @@ public class Lesson implements Serializable {
     private String intro2; //詳情介紹
 
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getLessonname() {
-        return lessonname;
-    }
-
-    public void setLessonname(String lessonname) {
-        this.lessonname = lessonname;
-    }
-
-    public String getSort() {
-        return sort;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
-    }
-
-    public String getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(String teacher) {
-        this.teacher = teacher;
-    }
-
-    public String getOpendate() {
-        return opendate;
-    }
-
-    public void setOpendate(String opendate) {
-        this.opendate = opendate;
-    }
-
-    public String getClosedate() {
-        return closedate;
-    }
-
-    public void setClosedate(String closedate) {
-        this.closedate = closedate;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public String getIntro() {
-        return intro;
-    }
-
-    public void setIntro(String intro) {
-        this.intro = intro;
-    }
-
-    public String getIntro2() {
-        return intro2;
-    }
-
-    public void setIntro2(String intro2) {
-        this.intro2 = intro2;
-    }
 }

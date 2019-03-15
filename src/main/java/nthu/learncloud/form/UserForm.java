@@ -1,14 +1,18 @@
 package nthu.learncloud.form;
 
 import nthu.learncloud.domain.User;
+import nthu.learncloud.domain.UserRepository;
+import nthu.learncloud.service.UserService;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class UserForm {
+
 
     //public static final String PHONE_REG = "^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\d{8}$";
     public static final String PHONE_REG = ("09[0-9]{2}[0-9]{6}");
@@ -27,11 +31,24 @@ public class UserForm {
     @Length(min = 6,message = "密碼至少6位")
     private String password;
 
-    @NotBlank(message = "兩次輸入密碼有誤")
+    @NotBlank(message = "不能為空")
     private String repassword;
 
-   //
+    private String permission;
+
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    //
     public boolean repassword() {
+
+
         if(this.password.equals(this.repassword))
         {
             return true;
@@ -41,6 +58,7 @@ public class UserForm {
 
 
     public String getUsername() {
+
         return username;
     }
 
@@ -56,7 +74,8 @@ public class UserForm {
         this.email = email;
     }
 
-    public String getPhone() {
+    public String getPhone()
+    {
         return phone;
     }
 

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:c="http://www.w3.org/1999/XSL/Transform">
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8" />
     <!-- 優化行動裝置 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>清華磨課司MOOCS</title>
 
@@ -15,6 +15,8 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/topnav.css">
 
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="/js/jquery-3.3.1.min.js"></script>
@@ -30,27 +32,22 @@
         .carousel-inner .carousel-item-prev {
             display: flex;
         }
-
         .carousel-inner .carousel-item-right.active,
         .carousel-inner .carousel-item-next {
             transform: translateX(25%);
         }
-
         .carousel-inner .carousel-item-left.active,
         .carousel-inner .carousel-item-prev {
             transform: translateX(-25%);
         }
-
         .carousel-inner .carousel-item-right,
         .carousel-inner .carousel-item-left{
             transform: translateX(0);
         }
-
         /* 輪播按鈕 */
         .carousel-control-prev-icon {
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#000000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
         }
-
         .carousel-control-next-icon {
             background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#000000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
         }
@@ -66,21 +63,96 @@
 
 <div class="sticky-top">
     <div class="navbar navbar-light" style="background-color: #e3f2fd;">
-        <div class="row">
-            <a class="col" href="/"><img class="card-img-bot" style="height:4rem;" src="/img/moocs.jpg"></a>
-            <div class="form-inline">
-                <div class="search-line ">
-                    <input type="text" name="searchkey" placeholder="輸入課程">
-                </div>
-                <li class="welcome">歡迎登陸</li>
-                <a class="col-auto" href="/re">測試</a>
-                <a class="col-auto" href="/login">登入</a>
-                <a class="col-auto" href="/registerpage">註冊</a>
+        <div class="container">
+            <a href="/"><img style="height:4rem;" src="/img/moocs.jpg"></a>
+
+            <div class="row align-items-center">
+                <span id="welcome">歡迎，</span>
+                <span id="welcome1" style="font-size:17px;" class="fas fa-walking">訪客</span>
+                <span id="welcome2" style="display:none;font-size:17px;" ><span id="userusername" class="fas fa-user"></span></span>
+
+                <ul class="topnav" id="myTopnav">
+                    <li><a id="ucantseeme" style="visibility:hidden">導覽</a></li>
+                    <li><a id="welcome1-1" href="/login" class="fas fa-sign-in-alt">登入</a></li>
+                    <li><a id="welcome1-2" href="/re" class="fas fa-user-plus">註冊</a></li>
+
+                    <li><a id="userfollow" style="display:none" class="fas fa-list-ul">追蹤課程</a></li>
+                    <li><a id="userlist" style="display:none" class="far fa-address-card">個人資料</a></li>
+                    <li><a id="logout" style="display:none" class="fas fa-sign-out-alt">登出</a></li>
+
+                    <li class="icon">
+                        <a href="javascript:void(0);" onclick="myFunction()">&#9776;</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    }
+</script>
+<script>
+    $("#logout").click(function () {
+        $.ajax({
+            url: 'result/logout',
+            type: 'POST',
+            data: JSON.stringify,
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+                if (data === "logoutfinish") {
+                    alert("登出成功");
+                    location.href = '/';
+                }
+            },
+            error: function () {
+                alert('服務器目前異常');
+            }
+        })
+    });
+</script>
+<script th:inline="javascript">
 
+    user = [[${session.user}]];
+    console.log(user);
+
+    if(user==null)
+    {
+        $('#welcome1').show();
+        $('#welcome1-1').show();
+        $('#welcome1-2').show();
+        $('#welcome2').hide();
+        $('#userfollow').hide();
+        $('#userlist').hide();
+        $('#logout').hide();
+    }else
+    {
+        $('#welcome1').hide();
+        $('#welcome1-1').hide();
+        $('#welcome1-2').hide();
+        $('#welcome2').show();
+        $('#userfollow').show();
+        $('#userlist').show();
+        $('#logout').show();
+
+        $('#userusername').text(user.username);
+    }
+</script>
+<div class="container"><!--頭-->
+
+<div class="search-line">
+    <div><input type="text" name="searchkey" placeholder="輸入課程"></div>
+</div>
+    <div id="test3" class="col-sm"><a href="/admin_management">測試</a></div>
+    <div id="test4" class="col-sm"><a href="/admin_management2">測試2</a></div>
+    <div id="test5" class="col-sm"><a href="/admin_management3">測試3</a></div>
 
 
 <!--快速導覽-->
@@ -164,7 +236,7 @@
 < !--精選-->
 
 <div class="container text-center my-3">
-    <button type="button" class="btn btn-outline-primary active">熱門開課</button>
+    <button type="button" class="btn btn-outline-primary">熱門開課</button>
     <button type="button" class="btn btn-outline-danger">限時課程</button>
     <button type="button" class="btn btn-outline-secondary">準備開課</button>
     <a href="/lessonlist" class="btn btn-outline-success">課程總攬</a>
@@ -272,14 +344,14 @@
     </div>
 </div>
 
-</div>
+
 
 
 
 <script>
     $('#recipeCarousel').carousel({
         interval: 1000
-    })
+    });
 
     $('.carousel .carousel-item').each(function(){
         var next = $(this).next();
@@ -287,24 +359,19 @@
             next = $(this).siblings(':first');
         }
         next.children(':first-child').clone().appendTo($(this));
-
         for (var i=0;i<2;i++) {
             next=next.next();
             if (!next.length) {
                 next = $(this).siblings(':first');
             }
-
             next.children(':first-child').clone().appendTo($(this));
         }
     });
-
 </script>
 
 
-
-
 <!--課程列條-->
-<div class="column">
+
 <div class="card" style="width: 18rem;">
     <img class="card-img-bot" style="height:18rem;" src="${pageContext.request.contextPath}/image/1.png", alt="Card image cap">
     <div class="card-body">
@@ -374,12 +441,13 @@
 
 
 
-</div>
 
 
 
     <!--底部-->
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2"></div>
 <div>Line 推播功能訂閱：<img src="http://qr-official.line.me/L/HsvrlzjSHS.png"></div>
+
+</div><!--尾-->
 </body>
 </html>

@@ -1,30 +1,12 @@
 package nthu.learncloud.api;
 
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.linecorp.bot.client.LineMessagingClient;
-import com.linecorp.bot.model.PushMessage;
-import com.linecorp.bot.model.action.Action;
-import com.linecorp.bot.model.action.MessageAction;
-import com.linecorp.bot.model.action.PostbackAction;
-import com.linecorp.bot.model.message.Message;
-import com.linecorp.bot.model.message.TemplateMessage;
-import com.linecorp.bot.model.message.TextMessage;
-import com.linecorp.bot.model.message.flex.component.Button;
-import com.linecorp.bot.model.message.template.ButtonsTemplate;
-import com.linecorp.bot.model.message.template.Template;
-import com.linecorp.bot.model.response.BotApiResponse;
 import nthu.learncloud.domain.Lesson;
 import nthu.learncloud.dto.LessonDto;
 import nthu.learncloud.exception.InvaildRequestException;
 import nthu.learncloud.exception.NotFoundException;
 import nthu.learncloud.service.LessonService;
 
-
-import nthu.learncloud.util.CustomBeanUtils;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,11 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.beans.PropertyDescriptor;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 
 @RestController
@@ -84,6 +62,17 @@ public class LessonApi {
         }
         return new ResponseEntity<Object>(lesson, HttpStatus.OK);
     }
+    /*
+    @PostMapping("/lesson={lessname}")
+    public ResponseEntity<?> getLessonname(@PathVariable String lessonname)
+    {
+        Lesson lesson = lessonService.findByLessonname(lessonname);
+        if(lesson == null)
+        {
+
+        }
+        return new ResponseEntity<Object>(lesson,HttpStatus.OK)
+    }*/
 
 
 

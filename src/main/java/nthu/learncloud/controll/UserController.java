@@ -2,24 +2,16 @@ package nthu.learncloud.controll;
 
 import nthu.learncloud.domain.User;
 import nthu.learncloud.form.UserForm;
-import nthu.learncloud.domain.UserRepository;
 import nthu.learncloud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.session.Session;
-import org.springframework.session.SessionRepository;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class UserController {
@@ -56,8 +48,6 @@ public class UserController {
 
 
 
-    @Autowired
-    private UserRepository userRepository;
 
     @GetMapping("/registerpage")
     public String register(Model model)
@@ -70,6 +60,7 @@ public class UserController {
     @PostMapping("/register")
     public String registerPost(@Valid UserForm userForm, BindingResult result)
     {
+
         if(!userForm.repassword()) {
             result.rejectValue("repassword", "confirmError", "密碼不一致");
         }
@@ -98,7 +89,7 @@ public class UserController {
         }
         */
         User user = userForm.convertToUser();
-        userRepository.save(user);
+        userService.save(user);
         return "redirect:/login";
 
     }
@@ -111,14 +102,27 @@ public class UserController {
     }
 
 
+    /*@PostMapping("/saveline")
+    public String savelin(@RequestParam String username, @RequestParam String password)
+    {
+
+        User user = userRepository.findByUsernameAndPassword(username, password);
+        if( user == null) {
+            return "請先註冊";
+        }else
+            user =userRepository.saveUsernameAndLineid(username,lineid);
+            return "已儲存";
+    }*/
+
+
     @PostMapping("/dologin")
     public String loginPost(@RequestParam String username, @RequestParam String password,HttpSession session){
-        User user = userRepository.findByUsernameAndPassword(username, password);
+        User user = userService.findByUsernameAndPassword(username, password);
         if( user !=null) {
             session.setAttribute("user", user);
             System.out.print(session.getId() + "\n");
             System.out.print(session.getAttribute("user"));
-            return "page/test";
+            return "consolo";
         }
         return "redirect:/login";
     }
@@ -144,11 +148,20 @@ public class UserController {
 
 
 
+
     @GetMapping("/logout")
     public String logout(HttpSession session)
     {
         session.removeAttribute("user");
         return "index";
+    }
+
+
+    //Line連接確認
+    @GetMapping("/linecheck")
+    public String linecheck()
+    {
+        return "member/linetouser";
     }
 }
 

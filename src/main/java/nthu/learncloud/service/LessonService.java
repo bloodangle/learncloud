@@ -1,7 +1,5 @@
 package nthu.learncloud.service;
 
-import com.linecorp.bot.model.PushMessage;
-import com.linecorp.bot.model.message.Message;
 import nthu.learncloud.domain.Lesson;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

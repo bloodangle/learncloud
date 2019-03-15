@@ -17,6 +17,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 //@SpringBootApplication
 
 @LineMessageHandler
@@ -29,9 +31,10 @@ public class Linebot {
     private LessonServicelmpl lessonServicelmpl;
 
 
-    @EventMapping
+    /*@EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         String s1 = event.getMessage().getText();
+
         boolean key;
         //event.getSource().getUserid() 獲取此會員所登入的房間id
         /*if (key = s1.contains("登入"))
@@ -40,6 +43,7 @@ public class Linebot {
         }else*/
         //System.out.print("event: " + event);
 
+        /*
         Long X = Long.parseLong(event.getMessage().getText());
         //Lesson lesson = lessonServicelmpl.getlessonByid(X);
         Lesson lesson = lessonServicelmpl.getlessonByid(X);
@@ -51,7 +55,36 @@ public class Linebot {
 
     //}
         //return new TextMessage(""+key);
+    }*/
+
+    @EventMapping
+    public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
+        String s1 = event.getMessage().getText();
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(s1);
+        Long X = null;
+
+        boolean key;
+
+        if(!isNum.matches())
+        {
+            if (key = s1.contains("登入"))
+            {
+                return new TextMessage("會員ID:" +event.getSource().getUserId() + "已登記");
+            }else
+                return new TextMessage("請確認功能");
+        } else
+
+            X = Long.parseLong(event.getMessage().getText());
+            //Lesson lesson = lessonServicelmpl.getlessonByid(X);
+            Lesson lesson = lessonServicelmpl.getlessonByid(X);
+            if(lesson != null) {
+                return new TextMessage(s1 +"\n課程:" + lesson.getLessonname() + "\n開始時間：" + lesson.getOpendate() + "\n結束時間：" + lesson.getClosedate() + "\n修課連結：" + "\nhttps://ctldtest2.tk/lesson/list=" + X);
+        }else
+            return new TextMessage("無此課程");
     }
+
+
 
 
     @EventMapping
