@@ -30,7 +30,7 @@ public class LineApi {
     private LineMessagingClient lineMessagingClient;
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/push{id}")
     //@JsonCreator
     public String lineOne(@PathVariable Long id) {
         Lesson lesson = lessonService.getlessonByid(id);
