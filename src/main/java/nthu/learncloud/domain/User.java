@@ -21,7 +21,7 @@ public class User implements Serializable {
     private String email;
     private String status;
 
-    private String identity;  //身分
+    private String identity;  //身分證
     private String experience;  //經歷
     private String introduction;  //簡介
 
@@ -30,7 +30,11 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
+    private String pd; // 照片
+
     private int permission;
+
+    private String homepage; //個人網站
 
 
 }

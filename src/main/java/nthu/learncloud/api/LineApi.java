@@ -32,8 +32,8 @@ public class LineApi {
 
     @GetMapping("/push{id}")
     //@JsonCreator
-    public String lineOne(@PathVariable Long id) {
-        Lesson lesson = lessonService.getlessonByid(id);
+    public String lineOne(@PathVariable long id) {
+        Lesson lesson = lessonService.findById(id);
 
         //Max 4
         Action action1 = new PostbackAction("訊息1", "text1");

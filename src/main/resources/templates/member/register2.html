@@ -52,6 +52,7 @@
                 $("#username").empty();
                 $("#password").empty();
                 $("#repassword").empty();
+                $("#identity").empty();
                 $("#phone").empty();
 
                 event.preventDefault();
@@ -60,10 +61,11 @@
                     username: $("#usernameId").val(),
                     password: $("#passwordId").val(),
                     repassword: $("#repasswordId").val(),
+                    identity: $("#IdentityId").val(),
                     phone: $("#phoneId").val(),
                     permission: $("#permissionId").val()
                 };
-                console.log(user);
+                //console.log(user);
                 $.ajax({
                     url: '/result/rtajax',
                     type: 'POST',
@@ -109,7 +111,7 @@
     <div class="navbar navbar-light" style="background-color: #e3f2fd;">
         <div class="container">
             <div class="row">
-                <a class="col-sm" href="/"><img class="card-img-bot" style="height:4rem;" src="/img/moocs.jpg"></a>
+                <a href="/"><img style="height:4rem;" alt=磨課師home src="/img/moocs.jpg"></a>
             </div>
         </div>
     </div>
@@ -145,6 +147,12 @@
                     <input type="password" class="form-control" name="repassword" id="repasswordId" placeholder="Again Password" autocomplete="off">
                     <div id="repassword"></div>
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="identityId">身分證</label>
+                <input type="text" class="form-control" name="identity" id="IdentityId" placeholder="Identity document">
+                <div id="identity"></div>
             </div>
 
             <div class="form-group">

@@ -1,11 +1,9 @@
 package nthu.learncloud.form;
 
 import nthu.learncloud.domain.User;
-import nthu.learncloud.domain.UserRepository;
-import nthu.learncloud.service.UserService;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +13,10 @@ public class UserForm {
 
 
     //public static final String PHONE_REG = "^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\d{8}$";
-    public static final String PHONE_REG = ("09[0-9]{2}[0-9]{6}");
+    private static final String PHONE_REG = ("09[0-9]{2}[0-9]{6}");
+
+    private static final String IDENTITY_REG =("[A-Z]{1}[0-9]{9}");
+    private static final String IDENYTITY_FOR_REG=("[A-Z]{2}[0-9]{8}");
 
     @NotBlank(message = "不能為空")
     private String username;
@@ -26,6 +27,9 @@ public class UserForm {
 
     @Pattern(regexp = PHONE_REG,message = "需要正確的手機號")
     private String phone;
+
+    @Pattern(regexp = IDENTITY_REG,message = "請輸入正確的身分證")
+    private String identity;
 
     @NotBlank(message = "不能為空,密碼至少6位")
     @Length(min = 6,message = "密碼至少6位")
@@ -48,12 +52,14 @@ public class UserForm {
     //
     public boolean repassword() {
 
-
         if(this.password.equals(this.repassword))
         {
             return true;
         }
-        return false;
+        else
+            {
+            return false;
+        }
     }
 
 
@@ -64,6 +70,14 @@ public class UserForm {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity;
     }
 
     public String getEmail() {

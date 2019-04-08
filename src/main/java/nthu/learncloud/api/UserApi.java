@@ -91,7 +91,7 @@ public class UserApi {
         System.out.print(user.getEmail());
         System.out.print(user.getPassword());
 
-        if(userService.findByEmail(user.getEmail())!=null)
+        if(userService.findByEmail(user.getEmail())!=null )
         {
             //System.out.print(userService.findByEmailAndPassword(user.getEmail(),user.getPassword()));
             if(userService.findByEmailAndPassword(user.getEmail(),user.getPassword())!=null) {

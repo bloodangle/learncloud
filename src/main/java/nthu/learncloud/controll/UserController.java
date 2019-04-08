@@ -29,6 +29,8 @@ public class UserController {
         return "member/userlist";
     }
 
+
+
     @GetMapping("/users/{id}")
     public String detail(@PathVariable long id, Model model)
     {

@@ -6,6 +6,9 @@
 
     <title>開課管理</title>
 
+    <!-- "fas fa-search" icon  https://fontawesome.com/ -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
@@ -18,6 +21,13 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="/js/bootstrap.bundle.js"></script>
     <script src="/js/bootstrap.js"></script>
+
+    <!--tinymce-->
+    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=3295o0t3fihpv5uq2q05wjuj9gvvis8d8uc57q2kkhriyr9j"></script>
+    <script>tinymce.init({selector: '#prerequisitesId',menubar: false});</script>
+    <script>tinymce.init({selector: '#goalId',menubar: false});</script>
+    <script>tinymce.init({selector: '#descrptionId',menubar: false});</script>
+    <script>tinymce.init({selector: '#weekId',menubar: false});</script>
 </head>
 <body>
 <!--導航列-->
@@ -25,27 +35,32 @@
 <div class="sticky-top">
     <div class="navbar navbar-light" style="background-color: #e3f2fd;">
         <div class="container">
+            <a href="/"><img style="height:4rem;" alt=磨課師home src="/img/moocs.jpg"></a>
 
-            <a href="/"><img class="card-img-bot" style="height:4rem;" src="/img/moocs.jpg"></a>
-            <div class="search-line">
-                <div> <input type="text" name="searchkey" placeholder="輸入課程"></div>
+            <div class="row align-items-center">
+                <span id="welcome">歡迎，</span>
+                <span id="welcome1" style="font-size:17px;" class="fas fa-walking">訪客</span>
+                <span id="welcome2" style="display:none;font-size:17px;" ><span id="userusername" class="fas fa-user"></span></span>
+
+                <ul class="topnav" id="myTopnav">
+                    <li><a id="ucantseeme" style="visibility:hidden">導覽</a></li>
+                    <li><a id="welcome1-1" href="/login" class="fas fa-sign-in-alt">登入</a></li>
+                    <li><a id="welcome1-2" href="/re" class="fas fa-user-plus">註冊</a></li>
+
+                    <li><a id="userfollow" style="display:none" class="fas fa-list-ul">追蹤課程</a></li>
+                    <li><a id="userlist" style="display:none" class="far fa-address-card">個人資料</a></li>
+                    <li><a id="logout" style="display:none" class="fas fa-sign-out-alt">登出</a></li>
+
+                    <li class="icon">
+                        <a href="javascript:void(0);" onclick="myFunction()">&#9776;</a>
+                    </li>
+                </ul>
             </div>
-
-            <div id="welcome1" >歡迎訪客</div>
-            <div id="welcome2" style="display:none">歡迎,<span id="userusername"></span></div>
-
-            <ul class="topnav" id="myTopnav">
-                <li><a id="ucantseeme" style="visibility:hidden">導覽</a></li>
-                <li><a id="welcome1-1" href="/login">登入</a></li>
-                <li><a id="welcome1-2" href="/re">註冊</a></li>
-                <li><a id="logout" style="display:none">登出</a></li>
-                <li class="icon">
-                    <a href="javascript:void(0);" onclick="myFunction()">&#9776;</a>
-                </li>
-            </ul>
         </div>
     </div>
 </div>
+
+
 <script>
     function myFunction() {
         var x = document.getElementById("myTopnav");
@@ -79,14 +94,16 @@
 <script th:inline="javascript">
 
     user = [[${session.user}]];
-    //console.log(user);
+    console.log(user);
 
-    if(user == null)
+    if(user==null)
     {
         $('#welcome1').show();
         $('#welcome1-1').show();
         $('#welcome1-2').show();
         $('#welcome2').hide();
+        $('#userfollow').hide();
+        $('#userlist').hide();
         $('#logout').hide();
     }else
     {
@@ -94,11 +111,13 @@
         $('#welcome1-1').hide();
         $('#welcome1-2').hide();
         $('#welcome2').show();
+        $('#userfollow').show();
+        $('#userlist').show();
         $('#logout').show();
 
         $('#userusername').text(user.username);
     }
-</script>
+</script><!--頭-->
 
 
     <div class="container" style="max-width: 700px;">
@@ -106,9 +125,12 @@
             <p class="text-right"><a href="/lessonlist" type="sumbit" class="btn btn-primary">返回</a></p>
         </div>
 
-
-        <h2 class="pb-2 mt-4 mb-2 border-bottom">新課程細節</h2>
+        <h2 class="pb-2 mt-4 mb-2 border-bottom">課程細節</h2>
+        
         <div class="card card-body bg-light">
+
+
+
             <form action="/lessonlist" th:object="${lesson}" method="post">
                 <input type="hidden" th:value="*{id}" name="id">
                 <div class="form-group">
@@ -116,13 +138,44 @@
                     <input type="text" name="lessonname" id="lessonnameId" class="form-control" th:field="*{lessonname}">
                 </div>
                 <div class="form-group">
+                    <label for="sortId">課程類別</label>
+                    <select name="sort" id="sortId" class="form-control">
+                        <option value="csie" th:selected="(*{sort} == 'csie')">資訊工程</option><!--Computer Science and Information Engineering-->
+                        <option value="iot" th:selected="(*{sort} == 'iot')">物聯網</option>   <!--Internet of Things-->
+                        <option value="ai" th:selected="(*{sort} == 'ai')">人工智慧</option>  <!--Artificial intelligence-->
+                        <option value="doq" th:selected="(*{sort} == 'dog')">計量財務</option> <!--Department of Quantity-->
+                        <option value="ft" th:selected="(*{sort} == 'ft')">金融科技</option>  <!--Financial technology-->
+                        <option value="neu" th:selected="(*{sort} == 'neu')">神經科學</option> <!--Neuroscience-->
+                        <option value="bs" th:selected="(*{sort} == 'bs')">基礎學科</option>  <!--Basic subjects-->
+                        <option value="ge" th:selected="(*{sort} == 'ge')">通識教育</option>  <!--General Education-->
+                        <option value="other" th:selected="(*{sort} == 'other')">其他</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="teacherId">開課老師</label>
                     <input type="text" name="teacher" id="teacherId" class="form-control" th:field="*{teacher}">
                 </div>
                 <div class="form-group">
-                    <label for="sortId">課程類別</label>
-                    <input type="text" name="sort" id="sortId" class="form-control" th:field="*{sort}">
+                    <label for="teacherimgId">老師照片</label>
+                    <input type="text" name="teacherimg" id="teacherimgId" class="form-control" th:field="*{teacherimg}">
                 </div>
+                <div class="form-group">
+                    <label for="teachereducationId">老師學歷</label>
+                    <input type="text" name="teachereducation" id="teachereducationId" class="form-control" th:field="*{teachereducation}">
+                </div>
+                <div class="form-group">
+                    <label for="teacherexpertiseId">老師專長</label>
+                    <input type="text" name="teacherexpertise" id="teacherexpertiseId" class="form-control" th:field="*{teacherexpertise}">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="tagId">課程tag</label>
+                    <input type="text" name="tag" id="tagId" class="form-control" th:field="*{tag}">
+                </div>
+
+
                 <div class="form-group">
                     <label for="opendateId">開課日期</label>
                     <input type="date" name="opendate" id="opendateId" class="form-control" th:field="*{opendate}">
@@ -142,15 +195,33 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="introId">簡短介紹</label>
-                    <input type="text" name="intro" id="introId" class="form-control" th:field="*{intro}">
+                    <label for="prerequisitesId">修課先決條件</label>
+                    <textarea name="prerequisites" id="prerequisitesId" class="form-control" th:field="*{prerequisites}"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="intro2Id">詳細介紹</label>
-                    <input type="text" name="intro2" id="intro2Id" class="form-control" th:field="*{intro2}">
+                    <label for="goalId">學習目標</label>
+                    <textarea name="goal" id="goalId" class="form-control" th:field="*{goal}"></textarea>
                 </div>
-                <p>上傳圖片</p>
-                <p>上傳講義</p>
+                <div class="form-group">
+                    <label for="descrptionId">課程描述</label>
+                    <textarea name="descrption" id="descrptionId" class="form-control" th:field="*{descrption}"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="weekId">教學進度</label>
+                    <textarea name="week" id="weekId" class="form-control" th:field="*{week}"></textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="certifyId">是否有修課證明</label>
+                    <select name="certify" id="certifyId" class="form-control">
+                        <option value="0" th:selected="(*{certify} == '0')">否</option>
+                        <option value="1" th:selected="(*{certify} == '1')">是</option>
+                    </select>
+                </div>
+
+
 
                 <p class="text-center">
                     <button type="sumbit" class="btn btn-primary">送出</button>
@@ -159,6 +230,7 @@
 
         </div>
     </div>
+
 
 </body>
 </html>

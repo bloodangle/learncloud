@@ -3,19 +3,11 @@ package nthu.learncloud.controll;
 import com.google.common.collect.Maps;
 import nthu.learncloud.domain.User;
 import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.net.URI;
 import java.util.Map;
@@ -28,15 +20,19 @@ public class MainController {
     @GetMapping("/")
     public String index()
     {
-
-
-        return "index";
+        return "index2";
     }
     /*
     @GetMapping("/exception")
     public String testException() {
         throw new RuntimeException("測試異常");
     }*/
+
+    @GetMapping("/index2")
+    public String index2()
+    {
+        return "index";
+    }
 
     @GetMapping("/admin_management")
     public ResponseEntity<?> management(HttpSession session) {
@@ -83,7 +79,7 @@ public class MainController {
             return map;
     }
 
-
+    /*
     @GetMapping("/admin_management2")
     public String management2(HttpSession session){
         session.getAttribute("user");
@@ -104,12 +100,53 @@ public class MainController {
 
         }else
         return "member/login";
-    }
+    }*/
 
     @GetMapping("/re")
     public String testre(){return "member/register2";}
 
 
+    //課程列表
+    /*@GetMapping("/lessonlist")
+    public String lessonlist()
+    {
+        return "page/lessonlist";
+    }*/
 
+    @GetMapping("lessonopen2")
+    public String lessonopen()
+    {
+        return "page/lessonopen2";
+    }
+
+
+    @GetMapping("/lessonlist")
+    public String lessonlist(HttpSession session){
+        session.getAttribute("user");
+        //System.out.print(session);
+        if(session.getAttribute("user")!=null) {
+
+            //System.out.print(session.getAttribute("user"));
+            User user = new User();
+            BeanUtils.copyProperties(session.getAttribute("user"),user);
+            //System.out.print(user);
+            //System.out.print(user.getPermission());
+            if(user.getPermission()==4) {
+                return "page/lessonlistadmin";
+            }else
+            {
+                return "page/lessonlist";
+            }
+
+        }else
+            return "page/lessonlist";
+    }
+    @GetMapping("/lessonlist3")
+    public String lessonlist3(){return "page/courses";}
+
+    @GetMapping("/lessonlist2")
+    public String lessonlist2(){
+        return "page/lessonlist2";
+    }
 }
 

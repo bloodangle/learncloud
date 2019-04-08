@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -28,8 +29,7 @@ public class LessonController {
 
     @Autowired
     private LessonService lessonService;
-
-
+    /*
     //DESC 倒序 ASC正序
     @GetMapping("/lessonlist")
     public String lessonlist(@PageableDefault(size = 5,sort ={"id"},direction = Sort.Direction.ASC) Pageable pageable, Model model)
@@ -37,21 +37,28 @@ public class LessonController {
         Page<Lesson> page1 = lessonService.findAllByPage(pageable);
         model.addAttribute("page",page1);
         return "page/lessonlist";
-    }
+    }*/
 
 
 
     /** 課程詳情 */
 
     @GetMapping("/lesson/list={id}")
-    public String lessodetail(@PathVariable long id, Model model)
+    public String lessondetail(@PathVariable Integer id, Model model)
     {
-        Lesson lesson = lessonService.getlessonByid(id);
+        Lesson lesson = lessonService.findById(id);
         model.addAttribute("lesson",lesson);
         return "page/lesson";
     }
 
+    @GetMapping("/lesson/sort={sort}")
+    public ResponseEntity<?> getSort(@PathVariable String sort)
+    {
+        List<Lesson> lessons =lessonService.findBySort(sort);
 
+        return new ResponseEntity<List<Lesson>>(lessons,HttpStatus.OK);
+
+    }
 
 
     //
@@ -65,14 +72,16 @@ public class LessonController {
         return "page/lessonopen";
     }
 
-    @PostMapping("/lessonlist")
+    @PostMapping("/lessonlist2")
     public String post(Lesson lesson, final RedirectAttributes attributes)
     {
+        /*
         Lesson lesson1 = lessonService.save(lesson);
         if(lesson1 != null)
         {
             attributes.addFlashAttribute("message","《"+lesson1.getLessonname()+"》增加成功");
-        }
+        }*/
+        attributes.addFlashAttribute("message","增加成功");
         //redirect 調用回到某頁面
         return "redirect:/lessonlist";
 
@@ -85,9 +94,19 @@ public class LessonController {
 
 
 
+    //以課程類別搜尋
+    @GetMapping("/lessonsort={sort}")
+    public String lsort(@PathVariable String sort,final RedirectAttributes attributes) {
+        //List<Lesson> lessons = lessonService.findBySort(sort);
+
+        attributes.addFlashAttribute("message",sort);
+        return "redirect:/lessonlist";
+    }
 
 
-    @GetMapping("/lesson/del={id}")
+
+
+    @DeleteMapping("/lesson/del={id}")
     public String delete(@PathVariable long id,final RedirectAttributes attributes)
     {
         lessonService.delete(id);
@@ -100,11 +119,18 @@ public class LessonController {
 
     /**課程修改*/
     @GetMapping("/lesson/edit={id}")
-    public String edit(@PathVariable long id,Model model)
+    public String edit(@PathVariable long id,Model model,final RedirectAttributes attributes)
     {
-        Lesson lesson = lessonService.getlessonByid(id);
-        model.addAttribute("lesson",lesson);
-        return "page/lessonopen";
+        Lesson lesson = lessonService.findById(id);
+        if (lesson != null)
+        {
+            model.addAttribute("lesson",lesson);
+            return "page/lessonopen2";
+        }else
+        {
+            attributes.addFlashAttribute("message","無權限進行此操作");
+            return "page/lessonlist";
+        }
     }
 
 

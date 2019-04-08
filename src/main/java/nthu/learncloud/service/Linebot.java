@@ -77,7 +77,7 @@ public class Linebot {
 
             X = Long.parseLong(event.getMessage().getText());
             //Lesson lesson = lessonServicelmpl.getlessonByid(X);
-            Lesson lesson = lessonServicelmpl.getlessonByid(X);
+            Lesson lesson = lessonServicelmpl.findById(X);
             if(lesson != null) {
                 return new TextMessage(s1 +"\n課程:" + lesson.getLessonname() + "\n開始時間：" + lesson.getOpendate() + "\n結束時間：" + lesson.getClosedate() + "\n修課連結：" + "\nhttps://ctldtest2.tk/lesson/list=" + X);
         }else
