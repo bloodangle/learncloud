@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>課程總攬</title>
+
+    <!-- "fas fa-search" icon  https://fontawesome.com/ -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/topnav.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+
+<body>
+
+<!--導航列-->
+
+<div class="sticky-top">
+    <div class="navbar navbar-light" style="background-color: #e3f2fd;">
+        <div class="container">
+            <a href="/"><img style="height:4rem;" alt="磨課師home" src="/img/moocs.jpg"></a>
+
+            <div class="row align-items-center">
+                <span id="welcome">歡迎，</span>
+                <span id="welcome1" style="font-size:17px;" class="fas fa-walking">訪客</span>
+                <span id="welcome2" style="display:none;font-size:17px;" ><span id="userusername" class="fas fa-user"></span></span>
+
+                <ul class="topnav" id="myTopnav">
+                    <li><a id="ucantseeme" style="visibility:hidden">導覽</a></li>
+                    <li><a id="welcome1-1" href="/login" class="fas fa-sign-in-alt">登入</a></li>
+                    <li><a id="welcome1-2" href="/re" class="fas fa-user-plus">註冊</a></li>
+
+                    <li><a id="userfollow" style="display:none" class="fas fa-list-ul">追蹤課程</a></li>
+                    <li><a id="userlist" style="display:none" class="far fa-address-card">個人資料</a></li>
+                    <li><a id="logout" style="display:none" class="fas fa-sign-out-alt">登出</a></li>
+
+                    <li class="icon">
+                        <a href="javascript:void(0);" onclick="myFunction()">&#9776;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function myFunction() {
+        var x = document.getElementById("myTopnav");
+        if (x.className === "topnav") {
+            x.className += " responsive";
+        } else {
+            x.className = "topnav";
+        }
+    }
+</script>
+<script>
+    $("#logout").click(function () {
+        $.ajax({
+            url: 'result/logout',
+            type: 'POST',
+            data: JSON.stringify,
+            contentType: "application/json",
+            success: function (data) {
+                //console.log(data);
+                if (data === "logoutfinish") {
+                    alert("登出成功");
+                    location.href = '/';
+                }
+            },
+            error: function () {
+                alert('服務器目前異常');
+            }
+        })
+    });
+</script>
+<script th:inline="javascript">
+
+    user = [[${session.user}]];
+    //console.log(user);
+
+    if(user==null)
+    {
+        $('#welcome1').show();
+        $('#welcome1-1').show();
+        $('#welcome1-2').show();
+        $('#welcome2').hide();
+        $('#userfollow').hide();
+        $('#userlist').hide();
+        $('#logout').hide();
+    }else
+    {
+        $('#welcome1').hide();
+        $('#welcome1-1').hide();
+        $('#welcome1-2').hide();
+        $('#welcome2').show();
+        $('#userfollow').show();
+        $('#userlist').show();
+        $('#logout').show();
+
+        $('#userusername').text(user.username);
+    }
+</script><!--頭-->
+
+<div class="container">
+    <!--<p th:text="${session.user}"></p>-->
+
+    <a href=""  class="btn btn-outline-primary">熱門開課</a>
+    <button type="button" class="btn btn-outline-danger">限時課程</button>
+    <button type="button" class="btn btn-outline-secondary">準備開課</button>
+    <a href="/lessonlist" class="btn btn-outline-success">課程總攬</a>
+
+    <h2 class="pb-2 mt-4 mb-2 border-bottom">課程總攬</h2>
+
+
+
+    <nav aria-label="Page navigation example">
+        <ul id="paginationId" class="pagination">
+            <li id="previousId" class="page-item disabled">
+                <a id="previous" class="page-link" href="javascript:void(0);">Previous</a>
+            </li>
+
+
+            <li id="nextId" class="page-item">
+                <a id="next" class="page-link" href="javascript:void(0);">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <div class="alert alert-success alert-dismissible" th:unless="${#strings.isEmpty(message)}">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        課程<span th:text="${message}"></span>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">一頁顯示<input type="number" id="sizetext" style="width: 3em" >筆數，<span id="no"></span></div>
+        <div class="text-right"><a href="/lessonopen" class="btn btn-primary">發表課程</a></div>
+    </div>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr class="bg-light-secondary">
+            <th>課程ID</th>
+            <th>課程縮圖</th>
+            <th>課程名稱</th>
+            <th>課程類別</th>
+            <th>開課老師</th>
+            <th>開課日期</th>
+            <th>課程狀態</th>
+            <th>動作</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+
+        <!--iterStart.
+            count 從1開始
+            index 從0開始
+            size  列表總條數
+            even/odd: 偶數或奇數顯示不同顏色
+            first/last:第一條or最後一條
+            -->
+        <tbody id="list">
+        <!-- th:class="${iterStat.even}? 'bg-light'"-->
+        <!--<tr th:each="lesson,iterStat:${lessons}">-->
+
+        </tbody>
+    </table>
+
+</div>
+
+<div id="test"></div>
+
+<script th:inline="javascript">
+
+    var cur=0;
+    var curpage=1;
+    var totalpage=1;
+    var j;
+    var size;
+    var o;
+    var urllesson='';
+    var urlcsie='/lesson/sort=csie';
+    message1 =[[${message}]];
+    console.log(message1);
+
+    function howsort() {
+        if(message1!=null)
+        {
+            urllesson=message1;
+        }else {
+            urllesson = '/api/list';
+        }
+        console.log(urllesson);
+    }
+    /*$(function() {
+        var event = $.Event('keypress');
+        event.which = 13;
+        $('#sizetext').val(3).trigger(event);
+    });*/
+
+    function keydefault()
+    {
+        let event = $.Event('keypress');
+        event.which = 13;
+        $('#sizetext').val(3).trigger(event);
+    }
+
+    function clickpagination(data) {
+        let string_status = '';
+        let string_sort ='';
+        $("#paginationId li").on("click", function () {
+            $("#list").empty();
+            //console.log(this.id);
+            $(this).attr('class', 'page-item active');
+            $("#paginationId li").not(this).attr('class', 'page-item').remove("off");
+            curpage = this.id;
+            cur = curpage * size;
+            //console.log(cur);
+            if (this.id == 1) {
+                $("#previousId").attr('class', 'page-item disabled').off("click");
+            }
+            if (this.id == totalpage) {
+                $("#nextId").attr('class', 'page-item disabled').off("click");
+            }
+            for (j = size * curpage - size; j < cur; j++) {
+                if (data[j] !== undefined) {
+                    switch (data[j].sort) {
+                        case 'csie':
+                            string_sort = '資訊工程';
+                            break;
+                        case 'iot':
+                            string_sort = '物聯網';
+                            break;
+                        case 'ai':
+                            string_sort ='人工智慧';
+                            break;
+                        case 'doq':
+                            string_sort ='計量財務';
+                            break;
+                        case 'ft':
+                            string_sort ='金融科技';
+                            break;
+                        case 'neu':
+                            string_sort ='神經科學';
+                            break;
+                        case 'bs':
+                            string_sort ='基礎學科';
+                            break;
+                        case 'ge':
+                            string_sort ='通識教育';
+                            break;
+                        default:
+                            string_sort = '其他';
+                    }
+                    switch (data[j].status) {
+
+                        case 1:
+                            string_status = '<span class="alert-success">開課中</span>';
+                            break;
+                        case 2:
+                            string_status = '<span class="alert-danger">已開課完畢</span>';
+                            break;
+                        default:
+                            string_status = '<span class="alert-warning">尚未開課</span>';
+                    }
+
+                    //$('#list').append("<tr onclick='hit("+data[length].id +")'>" +
+                    $("#list").append("<tr>" +
+                        "<td>" + data[j].id + "</td>"
+                        +
+                        "<td></td>"
+                        +
+                        "<td><a href=/lesson/list=" + data[j].id + ">" + data[j].lessonname + "</a></td>"
+                        +
+                        "<td>" + string_sort + "</td>"
+                        +
+                        "<td>" + data[j].teacher + "</td>"
+                        +
+                        "<td>" + data[j].opendate + "<p>↓</p>" + data[j].closedate + "</td>"
+                        +
+                        "<td>" + string_status + "</td>"
+                        +
+                        "<td><a href=/lesson/edit=" + data[j].id + ">" + "修改" + "</a>" + "    " +
+                        "<a href=/lesson/del=" + data[j].id + " onclick=\"return confirm('確定刪除嗎?')\">" + "刪除" + "</a></td>"
+                        +
+                        "<td><button id=\"push" + data[j].id + "\" class=\"btn btn-primary\">推送</button></td>"
+                        +
+                        "<tr>");
+                }
+            }
+        });
+        $("#1").trigger("click");
+    }
+
+    function getdata()
+    {
+        $.ajax({
+            url: urllesson,
+            type: 'POST',
+            success: function (data) {
+
+                if (data !== "無此類別") {
+                    totalpage = Math.ceil(data.length / size);
+                    $("#paginationId li").not($("#previousId")).not($("#nextId")).remove();
+                    for (var i = 1; i <= totalpage; i++) {
+                        $("#nextId").before("<li id=\"" + i + "\" class=\"page-item\"><a class=\"page-link\" href=\"javascript:void(0);\">" + i + "</a></li>");
+                    }
+                    //$("#page1").attr('class','page-item active');
+                    clickpagination(data);
+                    $('#no').empty().append("共計" + data.length + "筆結果");
+                } else {
+                    $('#no').append("無數據");
+                }
+            },
+            error() {
+                alert("出問題了");
+            }
+        })
+    }
+
+
+    $(function () {
+        howsort();
+
+        $("#sizetext").keypress(function (e) {
+            if(e.which === 13)
+            {
+                size = $("#sizetext").val();
+                $('#list').ready(getdata());
+            }
+        });
+
+        keydefault();
+
+
+        $("#buttoncsie").on("click",function () {
+            csietest();
+        });
+
+        $("tbody").on("click","button",function(){
+            $.ajax({
+                url: '/lineapi/'+this.id,
+                type: 'GET',
+                success: function () {
+                    if(confirm("是否進行推送課程？")) {
+                        alert("已推送課程");
+                        location.href = '/lessonlist';
+                    }else
+                    {
+                        alert("取消推送");
+                    }
+                },
+                error()
+                {
+                    alert("出問題了");
+                }
+            })
+        });
+
+        $("#previous").on("click",function (e) {
+            e.stopPropagation();
+            o= ($('#paginationId li.active').attr('id'));
+            o = o-1;
+            //console.log(o); // -1
+            $("#"+o).trigger("click");
+        });
+        $("#next").on("click",function (e) {
+            e.stopPropagation();  //防止父類別
+            o= ($('#paginationId li.active').attr('id'));
+            o++;
+            //console.log(o); // +1
+            //console.log($("#"+o).trigger("click"));
+            $("#"+o).trigger("click");
+        });
+    });
+    /*function hit(id){
+        document.location = '/lesson/list=' + id ;
+    }*/
+
+
+</script>
+
+
+
+</body>
+</html>

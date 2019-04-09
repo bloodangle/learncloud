@@ -64,7 +64,7 @@ public class LessonApi {
         return new ResponseEntity<Object>(lesson, HttpStatus.OK);
     }
 
-    //以課程名稱搜尋  // lesson_name?lessonname=Arduino基礎
+    //以課程名稱模糊搜尋  // lesson_name?lessonname=Arduino基礎
     @PostMapping("/lesson_name")
     public ResponseEntity<?> lname(@RequestParam String lessonname) {
         List<Lesson> lessons = lessonService.findByLessonnameContaining(lessonname);

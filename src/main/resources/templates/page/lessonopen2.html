@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>開課管理</title>
+
+    <!-- "fas fa-search" icon  https://fontawesome.com/ -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/topnav.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+
+    <!--tinymce-->
+    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=3295o0t3fihpv5uq2q05wjuj9gvvis8d8uc57q2kkhriyr9j"></script>
+    <script>tinymce.init({selector: 'textarea',menubar: false});</script>
+
+
+</head>
+<body>
+<!--導航列-->
+
+<div class="container" style="max-width: 700px;">
+    <div>
+        <p class="text-right"><a href="/lessonlist" type="sumbit" class="btn btn-primary">返回</a></p>
+    </div>
+
+    <h2 class="pb-2 mt-4 mb-2 border-bottom">課程細節</h2>
+
+    <div class="card card-body bg-light">
+
+
+
+        <form id="lessonForm" action="/api/lessonopen" method="post">
+            <div class="form-group">
+                <label for="lessonnameId">課程名稱</label><span id="lessonname"></span>
+                <input type="text" name="lessonname" id="lessonnameId" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="lessonimgId">課程縮圖</label><span id="lessonimg"></span>
+                <input type="text" name="lessonimg" id="lessonimgId" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="introvideoId">課程導引影片</label><span id="introvideo"></span>
+                <input type="text" name="introvideo" id="introvideoId" class="form-control">
+            </div>
+
+
+            <div class="form-group">
+                <label for="sortId">課程類別</label><span id="sort"></span>
+                <select name="sort" id="sortId" class="form-control">
+                    <option value="nochoose">----尚未選擇----</option>
+                    <option value="csie">資訊工程</option><!--Computer Science and Information Engineering-->
+                    <option value="iot">物聯網</option>   <!--Internet of Things-->
+                    <option value="ai">人工智慧</option>  <!--Artificial intelligence-->
+                    <option value="doq">計量財務</option> <!--Department of Quantity-->
+                    <option value="ft">金融科技</option>  <!--Financial technology-->
+                    <option value="neu">神經科學</option> <!--Neuroscience-->
+                    <option value="bs">基礎學科</option>  <!--Basic subjects-->
+                    <option value="ge">通識教育</option>  <!--General Education-->
+                    <option value="other">其他</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="teacherId">開課老師</label><span id="teacher"></span>
+                <input type="text" name="teacher" id="teacherId" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="teacherimgId">老師照片</label><span id="teacherimg"></span>
+                <input type="text" name="teacherimg" id="teacherimgId" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="unitId">教學單位</label><span id="unit"></span>
+                <input type="text" name="unit" id="unitId" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="teachereducationId">老師學歷</label><span id="teachereducation"></span>
+                <input type="text" name="teachereducation" id="teachereducationId" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="teacherexpertiseId">老師專長</label><span id="teacherexpertise"></span>
+                <input type="text" name="teacherexpertise" id="teacherexpertiseId" class="form-control">
+            </div>
+
+
+            <div class="form-group">
+                <label for="tagId">課程Tag</label><span id="tag"></span>
+                <input type="text" name="tag" id="tagId" class="form-control">
+            </div>
+
+
+            <div class="form-group">
+                <label for="opendateId">開課日期</label><span id="opendate"></span>
+                <input type="date" name="opendate" id="opendateId" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="closedateId">結束日期</label><span id="closedate"></span>
+                <input type="date" name="closedate" id="closedateId" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label for="statusId">設置狀態</label>
+                <select name="status" id="statusId" class="form-control">
+                    <option value="0">尚未開課</option>
+                    <option value="1">開課中</option>
+                    <option value="2">已開課完畢</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="prerequisitesId">修課先決條件</label><span id="prerequisites"></span>
+                <textarea name="prerequisites" id="prerequisitesId" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="goalId">學習目標</label><span id="goal"></span>
+                <textarea name="goal" id="goalId" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="descrptionId">課程描述</label><span id="descrption"></span>
+                <textarea name="descrption" id="descrptionId" class="form-control"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="weekId">教學進度</label><span id="week"></span>
+                <textarea name="week" id="weekId" class="form-control"></textarea>
+            </div>
+
+
+            <div class="form-group">
+                <label for="certifyId">是否有修課證明</label><span id="certify"></span>
+                <select name="certify" id="certifyId" class="form-control">
+                    <option value="">----尚未選擇----</option>
+                    <option value="0">否</option>
+                    <option value="1">是</option>
+                </select>
+            </div>
+
+
+
+            <p class="text-center">
+                <button type="sumbit" class="btn btn-primary">送出</button>
+            </p>
+        </form>
+    </div>
+    <p id="bbbbb"></p>
+</div>
+
+<script th:inline="javascript">
+    lesson1 =[[${lesson}]];
+
+    console.log(lesson1);
+
+    $(function () {
+            if(lesson1!==null)
+            {
+                editdate();
+            }
+            $("#lessonForm").submit(function (event) {
+                clearForm();
+
+                event.preventDefault();
+                var lfd = getForm();
+                //console.log(lfd);
+                if (lesson1 == null) {
+                    $.ajax({
+                        url: '/api/lessonopen',
+                        type: 'POST',
+                        data: JSON.stringify(lfd),
+                        contentType: "application/json",
+                        success: function (data) {
+                            //console.log(data);
+                            if (data !== "已新增成功") {
+                                for (var field in data) {
+                                    $("#" + data[field].field).append(data[field].defaultMessage).addClass("text-danger");
+                                }
+                                turnerror();
+                            } else {
+                                alert("已新增" + $("#lessonnameId").val() + "成功");
+                                location.href = '/lessonlist2';
+                            }
+                        }
+                    })
+                }else
+                {
+                    $.ajax({
+                        url:'/api/update='+lesson1.id,
+                        type:'PUT',
+                        data: JSON.stringify(lfd),
+                        contentType: "application/json",
+                        success: function (data) {
+                            if(data==="此課程未找到")
+                            {
+                                alert("此"+data.id+"課程未找到");
+                            }else if(data==="請求有誤")
+                            {
+                                alert("請求有誤");
+                            }else
+                            {
+                                alert(data);
+                                location.href = '/lessonlist2';
+                            }
+                        }
+                    })
+                }
+            });
+    });
+
+    function getForm() {
+        let ary = {};
+        let name="";
+
+        $("#lessonForm").find("[name]").each(function (){
+            //console.log($(this));
+            name = $(this).attr("name");
+            ary[name] = $(this).val();
+        });
+
+        return ary;
+    }
+
+    function clearForm() {
+        $("#lessonForm").find("span[id]").each(function () {
+            $(this).empty().removeClass("text-danger");
+        });
+    }
+
+    function turnerror() {
+        $("html,body").animate({
+            scrollTop: $("span.text-danger").offset().top
+        },1000);
+    }
+
+    function editdate()
+    {
+        $.each(lesson1, function(key, val){
+            $('#'+key+'Id').val(val);
+            //$("[name="+key+"]").val(val);
+        });
+    }
+
+
+
+
+</script>
+
+</body>
+</html>

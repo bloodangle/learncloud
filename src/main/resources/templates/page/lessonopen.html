@@ -94,7 +94,8 @@
 <script th:inline="javascript">
 
     user = [[${session.user}]];
-    console.log(user);
+    lesson = [[${lesson}]];
+    console.log(lesson);
 
     if(user==null)
     {

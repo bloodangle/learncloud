@@ -44,7 +44,7 @@ public class Lesson implements Serializable {
 
     @Column(columnDefinition = "TEXT")
     private String week; //教學進度
-    private Long certify; //修課證明
+    private Long certify; //修課證明  0否  1有
     private String openclassdate; //開此課程時間
 
 }

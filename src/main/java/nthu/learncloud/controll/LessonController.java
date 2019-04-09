@@ -81,9 +81,9 @@ public class LessonController {
         {
             attributes.addFlashAttribute("message","《"+lesson1.getLessonname()+"》增加成功");
         }*/
-        attributes.addFlashAttribute("message","增加成功");
+        attributes.addFlashAttribute("messagedo","增加成功");
         //redirect 調用回到某頁面
-        return "redirect:/lessonlist";
+        return "redirect:/lessonlist2";
 
         /**
                 *  redirect 是兩次請求 post .get
@@ -92,15 +92,38 @@ public class LessonController {
                */
     }
 
-
+    //以課程名稱模糊搜尋  // lesson_name?lessonname=Arduino基礎
+    @GetMapping("/lesson_name")
+    public String lname(@RequestParam String lessonname,final RedirectAttributes attributes) {
+        List<Lesson> lessons = lessonService.findByLessonnameContaining(lessonname);
+        if (lessons.isEmpty()) {
+            attributes.addFlashAttribute("message","無此課程");
+            return "redirect:/lessonlist2";
+        }
+        attributes.addFlashAttribute("message","/api/lesson_name?lessonname="+lessonname);
+        return "redirect:/lessonlist2";
+    }
 
     //以課程類別搜尋
     @GetMapping("/lessonsort={sort}")
     public String lsort(@PathVariable String sort,final RedirectAttributes attributes) {
         //List<Lesson> lessons = lessonService.findBySort(sort);
 
-        attributes.addFlashAttribute("message",sort);
-        return "redirect:/lessonlist";
+        attributes.addFlashAttribute("message","/api/lessonsort="+sort);
+        return "redirect:/lessonlist2";
+    }
+
+    //以修課證明搜尋 https://ctldtest2.tk/api/lesson_certify?certify=0
+    @GetMapping("/lesson_certify={certify}")
+    public String lct(@PathVariable Long certify,final RedirectAttributes attributes)
+    {
+        List<Lesson> lessons =lessonService.findByCertify(certify);
+        if (lessons.isEmpty()) {
+            attributes.addFlashAttribute("message","查無匹配");
+            return "redirect:/lessonlist2";
+        }
+        attributes.addFlashAttribute("message","/api/lesson_certify?certify="+certify);
+        return "redirect:/lessonlist2";
     }
 
 
@@ -110,8 +133,8 @@ public class LessonController {
     public String delete(@PathVariable long id,final RedirectAttributes attributes)
     {
         lessonService.delete(id);
-        attributes.addFlashAttribute("message","《"+id+"》刪除成功");
-        return "redirect:/lessonlist";
+        attributes.addFlashAttribute("messagedo","《"+id+"》刪除成功");
+        return "redirect:/lessonlist2";
     }
 
 
@@ -128,8 +151,8 @@ public class LessonController {
             return "page/lessonopen2";
         }else
         {
-            attributes.addFlashAttribute("message","無權限進行此操作");
-            return "page/lessonlist";
+            attributes.addFlashAttribute("messagedo","無權限進行此操作");
+            return "page/lessonlist2";
         }
     }
 

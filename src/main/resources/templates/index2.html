@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+
+	<meta charset="utf-8">
+<title>清華磨課司MOOCS</title>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Lingua project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+<link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+<link rel="stylesheet" type="text/css" href="styles/responsive.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+<!-- jQuery文件。在bootstrap.min.js 之前引入 -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+
+	<style type="text/css">
+		/* 輪播部屬規則 */
+		.carousel-inner .carousel-item.active,
+		.carousel-inner .carousel-item-next,
+		.carousel-inner .carousel-item-prev {
+			display: flex;
+		}
+		.carousel-inner .carousel-item-right.active,
+		.carousel-inner .carousel-item-next {
+			transform: translateX(25%);
+		}
+		.carousel-inner .carousel-item-left.active,
+		.carousel-inner .carousel-item-prev {
+			transform: translateX(-25%);
+		}
+		.carousel-inner .carousel-item-right,
+		.carousel-inner .carousel-item-left{
+			transform: translateX(0);
+		}
+		/* 輪播按鈕 */
+		.carousel-control-prev-icon {
+			background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#000000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+		}
+		.carousel-control-next-icon {
+			background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#000000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+		}
+	</style>
+
+</head>
+<body>
+
+<div class="super_container">
+
+	<!-- Header -->
+
+	<header class="header">
+			
+		<!-- Top Bar -->
+
+		<div class="top_bar">
+			<div class="top_bar_container">
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<div class="top_bar_content d-flex flex-row align-items-center justify-content-start">
+								<div class="top_bar_phone"><span class="top_bar_title">連絡電話:03-5716200 轉__</span></div>
+								<div class="top_bar_right ml-auto">
+
+									<!-- Language -->
+									<!--<div class="top_bar_lang">
+										<span class="top_bar_title">site language:</span>
+										<ul class="lang_list">
+											<li class="hassubs">
+												<a href="#">English<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+												<ul>
+													<li><a href="#">Ukrainian</a></li>
+													<li><a href="#">Japanese</a></li>
+													<li><a href="#">Lithuanian</a></li>
+													<li><a href="#">Swedish</a></li>
+													<li><a href="#">Italian</a></li>
+												</ul>
+											</li>
+										</ul>
+									</div>-->
+
+									<!-- Social -->
+									<div class="top_bar_social">
+										<span class="top_bar_title social_title">follow us</span>
+										<ul>
+											<!--<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>-->
+											<li><a href="http://ctld.nthu.edu.tw/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>				
+		</div>
+
+		<!-- Header Content -->
+		<div class="sticky-top">
+		<div class="header_container">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="header_content d-flex flex-row align-items-center justify-content-start">
+							<div class="logo_container mr-auto">
+								<a href="/">
+									<div class="logo_text">清華雲</div>
+								</a>
+							</div>
+							<nav class="main_nav_contaner">
+								<ul class="main_nav">
+									<li class="active"><a href="/">首頁</a></li>
+									<li><a href="/lessonlist2">全部課程</a></li>
+									<!--<li><a href="instructors.html">Instructors</a></li>
+									<li><a href="#">Events</a></li>
+									<li><a href="blog.html">Blog</a></li>
+									<li><a href="contact.html">Contact</a></li>-->
+								</ul>
+							</nav>
+							<div class="header_content_right ml-auto text-right">
+								<div class="header_search">
+									<div class="search_form_container">
+										<form action="/lesson_name" id="search_form" class="search_form trans_400" method="get">
+											<input name="lessonname" type="search" class="header_search_input trans_400" placeholder="搜尋課程" required="required">
+											<div class="search_button">
+												<i class="fa fa-search" aria-hidden="true"></i>
+											</div>
+										</form>
+									</div>
+								</div>
+
+								<!-- Hamburger -->
+								<div class="user dropdown">
+										<i class="fas fa-user" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											<a id="welcome1-1" class="dropdown-item" href="/login">登入</a>
+											<a id="welcome1-2" class="dropdown-item" href="/re">註冊</a>
+											<a id="userfollow" class="dropdown-item" href="#">追蹤課程</a>
+											<a id="userinfo" class="dropdown-item" href="#">個人資料</a>
+											<a id="logout" class="dropdown-item" href="javascript:void(0);">登出</a>
+										</div>
+								</div>
+								<div class="hamburger menu_mm">
+									<i class="fa fa-bars menu_mm" aria-hidden="true"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+
+	</header>
+
+	<!-- Menu -->
+
+	<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+		<div class="menu_close_container"><div class="menu_close"></div></div>
+		<div class="search">
+			<form action="/lesson_name" class="header_search_form menu_mm" method="get">
+				<input name="lessonname" type="search" class="search_input menu_mm" placeholder="搜尋課程" required="required">
+				<button class="header_search_button d-flex flex-column align-items-center justify-content-center menu_mm">
+					<i class="fa fa-search menu_mm" aria-hidden="true"></i>
+				</button>
+			</form>
+		</div>
+		<nav class="menu_nav">
+			<ul class="menu_mm">
+				<li class="menu_mm" id="welcome" style="font-size:17px;">歡迎，<div id="welcome1" class="fas fa-walking">訪客 <a href="/login"> ｜ 登入？</a><a id="welcome1-3" href="/re">｜ 註冊？</a></div><div id="welcome2" class="fas fa-user" style="display:none;"></div></li>
+				<li class="menu_mm active"><a href="/">首頁</a></li>
+				<li class="menu_mm"><a href="/lessonlist2">全部課程</a></li>
+				<li class="menu_mm"><a id="userfollow2" href="javascript:void(0);">追蹤課程</a></li>
+				<li class="menu_mm"><a id="userinfo2" href="javascript:void(0);">個人資料</a></li>
+				<li class="menu_mm"><a id="logout2" href="javascript:void(0);">登出</a></li>
+			</ul>
+		</nav>
+		<div class="menu_extra">
+			<div class="menu_phone"><span class="menu_title">連絡電話:</span>03-5716200 轉__</div>
+			<div class="menu_social">
+				<span class="menu_title">follow us</span>
+				<ul>
+					<li><a href="http://ctld.nthu.edu.tw/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+
+	<script th:inline="javascript">
+		$("#logout").on("click",function () {
+			$.ajax({
+				url: 'result/logout',
+				type: 'POST',
+				data: JSON.stringify,
+				contentType: "application/json",
+				success: function (data) {
+					//console.log(data);
+					if (data === "logoutfinish") {
+						alert("登出成功");
+						location.href = '/';
+					}
+				},
+				error: function () {
+					alert('服務器目前異常');
+				}
+			})
+		});
+
+		$("#logout2").on("click",function () {
+			$.ajax({
+				url: 'result/logout',
+				type: 'POST',
+				data: JSON.stringify,
+				contentType: "application/json",
+				success: function (data) {
+					//console.log(data);
+					if (data === "logoutfinish") {
+						alert("登出成功");
+						location.href = '/';
+					}
+				},
+				error: function () {
+					alert('服務器目前異常');
+				}
+			})
+		});
+
+		user = [[${session.user}]];
+
+		if(user==null)
+		{
+			$('#welcome1').show();
+			$('#welcome1-1').show();
+			$('#welcome1-2').show();
+			$('#welcome1-3').show();
+			$('#welcome2').hide();
+			$('#userfollow').hide();
+			$('#userfollow2').hide();
+			$('#userinfo').hide();
+			$('#userinfo2').hide();
+			$('#logout').hide();
+			$('#logout2').hide();
+		}else
+		{
+			$('#welcome1').hide();
+			$('#welcome1-1').hide();
+			$('#welcome1-2').hide();
+			$('#welcome1-3').hide();
+			$('#welcome2').show().text(user.username);
+			$('#userfollow').show();
+			$('#userfollow2').show();
+			$('#userinfo').show();
+			$('#userinfo2').show();
+			$('#logout').show();
+			$('#logout2').show();
+		}
+	</script>
+	<!-- Home -->
+
+	<div class="home">
+		<div class="home_background" style="background-image: url(/images/index_background.jpg);"></div>
+		<div class="home_content">
+			<div class="container">
+				<div class="row">
+					<div class="col text-center">
+						<h1 class="home_title">線上學習</h1>
+						<!--<div class="home_button trans_200"><a href="#">開始</a></div>-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Sort -->
+
+	<div class="language">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h2 class="section_title text-center" style="font-family: 標楷體;font-size: 40px;">課程類別</h2>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="language_slider_container">
+						<div id="RowSort" class="owl-carousel owl-theme language_slider"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	
+	<script>
+
+		//資訊工程、物聯網、人工智慧、計量財務、金融科技、神經科學、基礎學科、通識教育、其他
+		function expandSort() {
+			for(let i=1;i<10;i++)
+			{
+				$("#RowSort").append("<div class=\"owl-item language_item\"><a href=\"#\"><div class=\"card-img\" style=\"width: 90px;height: 90px\"><img src=\"images/unknown/unknownflag.png\" alt=圖片><div class=\"lang_namg\">Unknown</div></a></div>")
+			}
+		}
+		function expandSort2() {
+			//csie,iot,ai,doq,ft,neu,bs,ge,other
+			//\"/api/lessonsort="+ary[i]+"\"
+			$("#RowSort").empty();
+			let ary= new Array("csie","iot","ai","doq","ft","neu","bs","ge","other");
+			let string_sort="";
+			for(let i=0;i<ary.length;i++)
+			{
+				//ary[i]
+				switch (ary[i]) {
+					case 'csie':
+						string_sort = '資訊工程';
+						break;
+					case 'iot':
+						string_sort = '物聯網';
+						break;
+					case 'ai':
+						string_sort ='人工智慧';
+						break;
+					case 'doq':
+						string_sort ='計量財務';
+						break;
+					case 'ft':
+						string_sort ='金融科技';
+						break;
+					case 'neu':
+						string_sort ='神經科學';
+						break;
+					case 'bs':
+						string_sort ='基礎學科';
+						break;
+					case 'ge':
+						string_sort ='通識教育';
+						break;
+					case 'other':
+						string_sort ='其他';
+						break;
+					default:
+						string_sort = '未分類';
+				}
+				$("#RowSort").append("<div class=\"owl-item language_item\"><a href=\"/lessonsort="+ary[i]+"\"><div class=\"card-img\" style=\"width: 90px;height: 90px\"><img src=\"images/unknown/unknownflag.png\" alt=圖片><div class=\"lang_namg\">"+string_sort+"</div></a></div>");
+			}
+		}
+		
+	</script>
+
+	<!-- Courses -->
+	<script>
+			function courses() {
+				$("#rowcourses").empty();
+		}
+
+		function setcourses(i,data) {
+			//console.log("順序："+i);
+			let string_certify = '';
+			switch (data[i].certify) {
+				case 0:
+					string_certify='<div class="course_mark trans_200"><a href="/lesson_certify=0">無</a></div>';
+					break;
+				default:
+					string_certify ='<div class="course_mark course_free trans_200"><a href="/lesson_certify=1">可證明</a></div>';
+			}
+			$("#rowcourses").append("<!-- Course -->" +
+					"<div id=\"courseinfo"+i+"\" class=\"col-lg-4 course_col\">" +
+					"<div class=\"course\">" +
+					"<div class=\"course_image\"><img src=\""+ data[i].lessonimg +"\" alt=\"\" width=\"358\" height=\"180\"></div>" +
+					"<div class=\"course_body\">" +
+					"<div class=\"course_title\">"+ data[i].lessonname+"<a href=\"course.html\"><!--課程名稱--></a></div>" +
+					"<div class=\"course_info\">" +
+					"<ul>" +
+					"<li><a href=\"instructors.html\"><!--授課老師-->"+data[i].teacher+"</a></li>" +
+					"<li<a href=\"#\"><!--單位-->"+data[i].unit+"</a></li>" +
+					"</ul>" +
+					"</div>" +
+					"<div class=\"course_text\"><p><!--描述-->"+data[i].goal+"</p></div>" +
+					"</div>" +
+					"<div class=\"course_footer d-flex flex-row align-items-center justify-content-start\">" +
+					"<div class=\"course_students\"><i class=\"fa fa-user\" aria-hidden=\"true\"></i><span>Null</span></div>" +
+					"<div class=\"course_rating ml-auto\"><i class=\"fa fa-star\" aria-hidden=\"true\"></i><span>Null</span></div>" + string_certify +
+					"</div>" +
+					"</div>" +
+					"</div>");
+
+		}
+
+		function setcourses2() {
+			$.ajax({
+				url:"/api/list",
+				type:"POST",
+				success:function (data) {
+					for(let i=0;i<3;i++) {
+						setcourses(i, data);
+						//$.each(data[i], function (key, val) {
+						//	$("#courseinfo"+i).find("#"+key).append(val);
+						//});
+					}
+
+				}
+			})
+		}
+	</script>
+	<div class="courses">
+		<div class="courses_background"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h2 class="section_title text-center">受歡迎的課程</h2>
+				</div>
+			</div>
+			<div id="rowcourses" class="row courses_row">
+
+				<!-- Course -->
+				<div class="col-lg-4 course_col">
+					<div class="course">
+						<div class="course_image"><img src="/images/unknown/nofound.png" alt="" width="358" height="180"></div>
+						<div class="course_body">
+							<div class="course_title">課程名稱</a></div>
+							<div class="course_info">
+								<ul>
+									<li><a href="javascript:void(0);">(授課老師)</a></li>
+									<li><a href="javascript:void(0);">單位</a></li>
+								</ul>
+							</div>
+							<div class="course_text">
+								<p>無資料</p>
+							</div>
+						</div>
+						<div class="course_footer d-flex flex-row align-items-center justify-content-start">
+							<div class="course_students"><i class="fa fa-user" aria-hidden="true"></i><span>Null</span></div>
+							<div class="course_rating ml-auto"><i class="fa fa-star" aria-hidden="true"></i><span>Null</span></div>
+							<div class="course_mark course_free trans_200"><a href="javascript:void(0);">Free</a></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Course -->
+				<div class="col-lg-4 course_col">
+					<div class="course">
+						<div class="course_image"><img src="/images/unknown/nofound.png" alt="" width="358" height="180"></div>
+						<div class="course_body">
+							<div class="course_title">課程名稱</a></div>
+							<div class="course_info">
+								<ul>
+									<li><a href="javascript:void(0);">(授課老師)</a></li>
+									<li><a href="javascript:void(0);">單位</a></li>
+								</ul>
+							</div>
+							<div class="course_text">
+								<p>無資料</p>
+							</div>
+						</div>
+						<div class="course_footer d-flex flex-row align-items-center justify-content-start">
+							<div class="course_students"><i class="fa fa-user" aria-hidden="true"></i><span>Null</span></div>
+							<div class="course_rating ml-auto"><i class="fa fa-star" aria-hidden="true"></i><span>Null</span></div>
+							<div class="course_mark course_free trans_200"><a href="javascript:void(0);">Free</a></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Course -->
+				<div class="col-lg-4 course_col">
+					<div class="course">
+						<div class="course_image"><img src="/images/unknown/nofound.png" alt="" width="358" height="180"></div>
+						<div class="course_body">
+							<div class="course_title">課程名稱</a></div>
+							<div class="course_info">
+								<ul>
+									<li><a href="javascript:void(0);">(授課老師)</a></li>
+									<li><a href="javascript:void(0);">單位</a></li>
+								</ul>
+							</div>
+							<div class="course_text">
+								<p>無資料</p>
+							</div>
+						</div>
+						<div class="course_footer d-flex flex-row align-items-center justify-content-start">
+							<div class="course_students"><i class="fa fa-user" aria-hidden="true"></i><span>Null</span></div>
+							<div class="course_rating ml-auto"><i class="fa fa-star" aria-hidden="true"></i><span>Null</span></div>
+							<div class="course_mark course_free trans_200"><a href="javascript:void(0);">Free</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		$(function () {
+			//teacherinstr();
+			expandSort();
+			expandSort2();
+			courses();
+			setcourses2();
+		});
+
+		function teacherinstr() {
+			$.ajax({
+				url:"/result/userlist",
+				type:'GET',
+				success:function (data) {
+					//console.log(data);
+
+					$("#instructorsid").empty().append("<div class=\"col-lg-4 instructor_col\">"
+					+"<div class=\"instructor text-center\">"
+							+"<div class=\"instructor_image_container\">"
+							+ "<div class=\"instructor_image\">"
+							+ "<img src=\""+ data[5].pd +"\" alt=\"\"></div>"+"</div>"
+							+ "<div class=\"instructor_name\">"+ data[5].username +"</div>"
+							+ "<div class=\"instructor_title\">"+data[5].experience+"</div>"
+							+ "<HR>"
+							+ "<div class=\"instructor_text\"><p>"+data[5].introduction+"</p></div>"
+							+ "<div class=\"instructor_social\">"
+							+ "<ul>"
+							+ "<li><a href=\"/users/"+data[5].id+"\"><i class=\"fa fa-address-book-o\" aria-hidden=\"true\"></i></a></li>"
+							+ "<li><a href=\""+ data[5].homepage+"\"><i class=\"fa fa-graduation-cap\" aria-hidden=\"true\"></i></a></li>"
+							+ "</ul></div></div></div>");
+				}
+			})
+		}
+	</script>
+	<!-- Instructors -->
+
+	<div class="instructors">
+		<div class="instructors_background" style="background-image:url(images/instructors_background.png)"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h2 class="section_title text-center">授課老師</h2>
+				</div>
+			</div>
+			<div id="instructorsid" class="row instructors_row">
+
+				<!-- Instructor -->
+				<div class="col-lg-4 instructor_col">
+					<div class="instructor text-center">
+						<div class="instructor_image_container">
+							<div class="instructor_image"><img src="images/unknown/unknown.jpg" alt=""></div>
+						</div>
+						<div class="instructor_name"><a href="">老師名</a></div>
+						<div class="instructor_title">資歷</div>
+						<div class="instructor_text">
+							<p>介紹</p>
+						</div>
+						<div class="instructor_social">
+							<ul>
+								<!--講師相關連結-->
+								<li><a href="#"><i class="fa fa-address-book-o" aria-hidden="true"></i></a></li>
+								<li><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i></a></li>
+
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<!-- Instructor -->
+				<div class="col-lg-4 instructor_col">
+					<div class="instructor text-center">
+						<div class="instructor_image_container">
+							<div class="instructor_image"><img src="images/unknown/unknown.jpg" alt=""></div>
+						</div>
+						<div class="instructor_name"><a href="">老師名</a></div>
+						<div class="instructor_title">資歷</div>
+						<div class="instructor_text">
+							<p>介紹</p>
+						</div>
+						<div class="instructor_social">
+							<ul>
+								<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<!-- Instructor -->
+				<div class="col-lg-4 instructor_col">
+					<div class="instructor text-center">
+						<div class="instructor_image_container">
+							<div class="instructor_image"><img src="images/unknown/unknown.jpg" alt=""></div>
+						</div>
+						<div class="instructor_name"><a href="">老師名</a></div>
+						<div class="instructor_title">資歷</div>
+						<div class="instructor_text">
+							<p>介紹</p>
+						</div>
+						<div class="instructor_social">
+							<ul>
+								<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+								<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Register -->
+	<!--
+	<div class="register">
+		<div class="container">
+			<div class="row">-->
+				
+				<!-- Register Form -->
+
+				<!--<div class="col-lg-6">
+					<div class="register_form_container">
+						<div class="register_form_title">Courses For Free</div>
+						<form action="#" id="register_form" class="register_form">
+							<div class="row register_row">
+								<div class="col-lg-6 register_col">
+									<input type="text" class="form_input" placeholder="Name" required="required">
+								</div>
+								<div class="col-lg-6 register_col">
+									<input type="email" class="form_input" placeholder="Email" required="required">
+								</div>
+								<div class="col-lg-6 register_col">
+									<input type="tel" class="form_input" placeholder="Phone">
+								</div>
+								<div class="col-lg-6 register_col">
+									<input type="url" class="form_input" placeholder="Site">
+								</div>
+								<div class="col">
+									<button type="submit" class="form_button trans_200">get it now</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>-->
+
+				<!-- Register Timer -->
+	<!--
+				<div class="col-lg-6">
+					<div class="register_timer_container">
+						<div class="register_timer_title">Register Now</div>
+						<div class="register_timer_text">
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce enim nulla, mollis eu metus in, sagittis fringilla tortor.</p>
+						</div>
+						<div class="timer_container">
+							<ul class="timer_list">
+								<li><div id="day" class="timer_num">00</div><div class="timer_ss">days</div></li>
+								<li><div id="hour" class="timer_num">00</div><div class="timer_ss">hours</div></li>
+								<li><div id="minute" class="timer_num">00</div><div class="timer_ss">minutes</div></li>
+								<li><div id="second" class="timer_num">00</div><div class="timer_ss">seconds</div></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	-->
+	<!-- Events -->
+
+	<div class="events">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<h2 class="section_title text-center">即將開課</h2>
+				</div>
+			</div>
+			<div class="row events_row">
+				
+				<!-- Event -->
+				<div class="col-lg-4 event_col">
+					<div class="event">
+						<div class="event_image"><img src="/img/6.jpg" alt=""></div>
+						<div class="event_date d-flex flex-column align-items-center justify-content-center">
+							<div class="event_day">26</div>
+							<div class="event_month">aug</div>
+						</div>
+						<div class="event_body d-flex flex-row align-items-center justify-content-start">
+							<div class="event_title"><a href="#">Networking Day</a></div>
+							<div class="event_tag ml-auto">可抵免</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Event -->
+				<div class="col-lg-4 event_col">
+					<div class="event">
+						<div class="event_image"><img src="/img/7.jpg" alt=""></div>
+						<div class="event_date d-flex flex-column align-items-center justify-content-center">
+							<div class="event_day">10</div>
+							<div class="event_month">Nov</div>
+						</div>
+						<div class="event_body d-flex flex-row align-items-center justify-content-start">
+							<div class="event_title"><a href="#">Networking Day</a></div>
+							<!--<div class="event_tag ml-auto">Free</div>-->
+						</div>
+					</div>
+				</div>
+
+				<!-- Event -->
+				<div class="col-lg-4 event_col">
+					<div class="event">
+						<div class="event_image"><img src="/img/4.jpg" alt=""></div>
+						<div class="event_date d-flex flex-column align-items-center justify-content-center">
+							<div class="event_day">13</div>
+							<div class="event_month">Dec</div>
+						</div>
+						<div class="event_body d-flex flex-row align-items-center justify-content-start">
+							<div class="event_title"><a href="#">Networking Day</a></div>
+							<!--<div class="event_tag ml-auto">Free</div>-->
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- Footer -->
+
+	<footer class="footer">
+		<div class="footer_body">
+			<div class="container">
+				<div class="row">
+
+					<!-- Newsletter -->
+					<div class="col-lg-3 footer_col">
+						<!--
+						<div class="newsletter_container d-flex flex-column align-items-start justify-content-end">
+							<div class="footer_logo mb-auto"><a href="#">Lingua</a></div>
+							<div class="footer_title">Subscribe</div>
+							<form action="#" id="newsletter_form" class="newsletter_form">
+								<input type="email" class="newsletter_input" placeholder="Email" required="required">
+								<button class="newsletter_button"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+							</form>
+						</div>
+						-->
+					</div>
+
+					<!-- About -->
+					<div class="col-lg-2 offset-lg-3 footer_col">
+						<div>
+							<div class="footer_title">關於我們</div>
+							<ul class="footer_list">
+								<li><a href="https://www.nthu.edu.tw/">所屬</a></li>
+								<!--<li><a href="#">Team</a></li>
+								<li><a href="#">Brand Guidelines</a></li>
+								<li><a href="#">Jobs</a></li>
+								<li><a href="#">Advertise with us</a></li>
+								<li><a href="#">Press</a></li>
+								<li><a href="#">Contact us</a></li>-->
+							</ul>
+						</div>
+					</div>
+
+					<!-- Help & Support -->
+					<div class="col-lg-2 footer_col">
+						<div class="footer_title">幫助</div>
+						<ul class="footer_list">
+							<li><a href="#">問題回報信箱</a></li>
+							<!--<li><a href="#">Troubleshooting</a></li>
+							<li><a href="#">Duolingo FAQs</a></li>
+							<li><a href="#">Schools FAQs</a></li>
+							<li><a href="#">Duolingo English Test FAQs</a></li>
+							<li><a href="#">Status</a></li>-->
+						</ul>
+					</div>
+
+					<!-- Privacy-->
+					<div class="col-lg-2 footer_col clearfix">
+						<div>
+							<!--<div class="footer_title">Privacy & Terms</div>
+							<ul class="footer_list">
+								<li><a href="#">Community Guidelines</a></li>
+								<li><a href="#">Terms</a></li>
+								<li><a href="#">Brand Guidelines</a></li>
+								<li><a href="#">Privacy</a></li>
+							</ul>-->
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="copyright">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="copyright_content d-flex flex-md-row flex-column align-items-md-center align-items-start justify-content-start">
+							<div class="cr"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
+							<div class="cr_right ml-md-auto">
+								<div class="footer_phone"><span class="cr_title">連絡電話:03-5716200 轉__</span></div>
+								<div class="footer_social">
+									<!--
+									<span class="cr_social_title">follow us</span>
+									<ul>
+										<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+										<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+										<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+									</ul>
+									-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="styles/bootstrap4/popper.js"></script>
+<script src="styles/bootstrap4/bootstrap.min.js"></script>
+<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="plugins/easing/easing.js"></script>
+<script src="js/custom.js"></script>
+
+
+<script>
+	$('#recipeCarousel').carousel({
+		interval: 1000
+	});
+
+	$('.carousel .carousel-item').each(function(){
+		var next = $(this).next();
+		if (!next.length) {
+			next = $(this).siblings(':first');
+		}
+		next.children(':first-child').clone().appendTo($(this));
+		for (var i=0;i<2;i++) {
+			next=next.next();
+			if (!next.length) {
+				next = $(this).siblings(':first');
+			}
+			next.children(':first-child').clone().appendTo($(this));
+		}
+	});
+</script>
+
+</body>
+</html>

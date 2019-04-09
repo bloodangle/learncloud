@@ -141,8 +141,6 @@ public class MainController {
         }else
             return "page/lessonlist";
     }
-    @GetMapping("/lessonlist3")
-    public String lessonlist3(){return "page/courses";}
 
     @GetMapping("/lessonlist2")
     public String lessonlist2(){

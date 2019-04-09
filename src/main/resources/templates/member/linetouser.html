@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Line登入確認作業</title>
+
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-grid.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-reboot.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.js"></script>
+</head>
+<body>
+
+<div class="container" style="max-width: 600px;margin-top:50px">
+
+
+
+    <div class="card card-body bg-light">
+
+        <form action="/dologin" method="post">
+            <div class="form-group">
+                <label for="usernameId">帳號</label>
+                <input type="text" class="form-control" name="username" id="usernameId">
+            </div>
+            <div class="form-group">
+                <label for="passwordId">密碼</label>
+                <input type="password" class="form-control" name="password" id="passwordId">
+            </div>
+            <!--<div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>-->
+            <p class="text-center">
+                <button type="submit" class="btn btn-primary">登入</button>
+            </p>
+        </form>
+    </div>
+
+</div>
+
+<script>
+
+</script>
+</body>
+</html>
